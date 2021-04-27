@@ -1,4 +1,4 @@
-
+from dataclasses import fields
 
 from django.contrib import admin
 from django import forms
@@ -7,6 +7,7 @@ from django import forms
 from django.utils.html import format_html
 
 from activite.models import Devise, Etiquette, SourceFinancement, ProgrammePhysique, Activites, StructureResponsable
+
 
 
 class CustomActivitesModelForm(forms.ModelForm):
@@ -27,6 +28,8 @@ class CustomActivitesModelForm(forms.ModelForm):
         self.fields['structure'].label = format_html("Structures responsables <span style='color: #FF0000;'>*</span>")
         self.fields['pogrammation'].label = format_html("Pogrammation physique <span style='color: #FF0000;'>*</span>")
         self.fields['generic'].label = format_html("Programme <span style='color: #FF0000;'>*</span>")
+
+
 
 
 class CustomProgrammePhysiquModelForm(forms.ModelForm):
@@ -150,15 +153,20 @@ admin.site.register(ProgrammePhysique, ProgrammePhysiqueAdmin)
 #
 class ActivitesAdmin(admin.ModelAdmin):
     list_display = (
-    'id', 'code', 'intitule', 'resultat_attendu', 'indicateur', 'cible', 'cout', 'devise', 'get_financement',
-    'get_structure', 'get_pogrammation', 'get_etiquette', 'generic')
+        'id', 'code', 'intitule', 'resultat_attendu', 'indicateur', 'cible', 'cout', 'devise', 'get_financement',
+        'get_structure', 'get_pogrammation', 'get_etiquette', 'generic')
     list_display_links = (
-    'id', 'code', 'intitule', 'resultat_attendu', 'indicateur', 'cible', 'cout', 'devise', 'get_financement',
-    'get_structure', 'get_pogrammation', 'get_etiquette', 'generic')
+        'id', 'code', 'intitule', 'resultat_attendu', 'indicateur', 'cible', 'cout', 'devise', 'get_financement',
+        'get_structure', 'get_pogrammation', 'get_etiquette', 'generic')
     list_filter = (
-    'id', 'code', 'intitule', 'resultat_attendu', 'indicateur', 'cible', 'cout', 'devise', 'financement', 'structure',
-    'pogrammation', 'etiquette', 'generic')
+        'id', 'code', 'intitule', 'resultat_attendu', 'indicateur', 'cible', 'cout', 'devise', 'financement',
+        'structure',
+        'pogrammation', 'etiquette', 'generic')
     search_fields = ('intitule',)
+
+    class Media:
+        js = ('//code.jquery.com/jquery-1.12.4.min.js', 'admin/js/admin/placeholder.js',)
+
     form = CustomActivitesModelForm
 
 

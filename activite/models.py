@@ -1,9 +1,6 @@
 from django.db import models
 
 # Create your models here.
-from django.db import models
-
-# Create your models here.
 from generiquemodel.models import GenericTable
 
 
@@ -52,9 +49,9 @@ class ProgrammePhysique(models.Model):
     trimestre = models.CharField(max_length=255, unique=True)
     date_ajout = models.DateTimeField(auto_now_add=True)
     date_modification = models.DateTimeField(auto_now_add=True)
+
     class Meta:
         verbose_name = 'Programmations Physique'
-
 
     def __str__(self):
         return self.trimestre
@@ -74,6 +71,10 @@ class Activites(models.Model):
     pogrammation = models.ManyToManyField('ProgrammePhysique')
     etiquette = models.ManyToManyField('Etiquette', blank=True)
     generic = models.ForeignKey(GenericTable, on_delete=models.CASCADE)
+    resultat_atteints = models.TextField(null=True, blank=True)
+    taux_execution = models.IntegerField(default=0, null=True, blank=True)
+    cout_effective = models.PositiveBigIntegerField(default=0, null=True, blank=True)
+    observation = models.TextField(null=True, blank=True)
     date_ajout = models.DateTimeField(auto_now_add=True)
     date_modification = models.DateTimeField(auto_now_add=True)
 

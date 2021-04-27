@@ -43,4 +43,5 @@ class ActivitesSerializer(serializers.ModelSerializer):
         model = Activites
         fields = ['id', 'code', 'intitule', 'resultat_attendu',
                   'indicateur', 'cible', 'cout', 'devise', 'financement',
-                  'structure', 'pogrammation', 'etiquette', 'generic']
+                  'structure', 'pogrammation', 'etiquette', 'generic', 'resultat_atteints',
+                  'taux_execution', 'cout_effective', 'observation']

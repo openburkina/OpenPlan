@@ -7,6 +7,7 @@ class Annee(models.Model):
     annee = models.PositiveSmallIntegerField(unique=True)
     date_ajout = models.DateTimeField(auto_now_add=True)
     date_modification = models.DateTimeField(auto_now_add=True)
+
     class Meta:
         verbose_name = 'Année'
 
