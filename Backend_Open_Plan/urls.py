@@ -19,7 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url('', include('rapport.urls')),
     url('', include('activite.urls')),
     url('', include('generiquemodel.urls')),
 ]

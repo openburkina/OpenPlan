@@ -1,3 +1,4 @@
+import app as app
 from django.shortcuts import render
 
 # Create your views here.
@@ -6,6 +7,7 @@ from django.http import JsonResponse, Http404
 from django.shortcuts import render
 
 # Create your views here.
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
 
@@ -13,8 +15,10 @@ from generiquemodel.models import GenericTable, Structure, Annee, Niveau
 from generiquemodel.serializers import GenericTableSerializer, StructureSerializer, AnneeSerializer, NiveauSerializer
 
 
+
 class StructureList(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
+
 
     @staticmethod
     def get(request):

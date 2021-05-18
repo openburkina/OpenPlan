@@ -84,9 +84,9 @@ admin.site.register(Niveau, NiveauAdmin)
 #
 #
 class StructureAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nom', 'date_ajout', 'date_modification')
-    list_display_links = ('id', 'nom', 'date_ajout', 'date_modification')
-    list_filter = ('id', 'nom',)
+    list_display = ('id', 'nom', 'budjet', 'date_ajout', 'date_modification')
+    list_display_links = ('id', 'nom', 'budjet', 'date_ajout', 'date_modification')
+    list_filter = ('id', 'nom', 'budjet',)
     search_fields = ('nom',)
     form = CustomStructureModelForm
 

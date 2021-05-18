@@ -6,7 +6,7 @@ from generiquemodel.models import Annee, Structure, Niveau, GenericTable
 class StructureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Structure
-        fields = ['id', 'nom']
+        fields = ['id', 'nom', 'budjet']
 
 
 class AnneeSerializer(serializers.ModelSerializer):
