@@ -18,6 +18,7 @@ class Annee(models.Model):
 class Structure(models.Model):
     id = models.AutoField(primary_key=True)
     nom = models.CharField(max_length=255, unique=True)
+    budjet = models.PositiveBigIntegerField(default=0, blank=True)
     date_ajout = models.DateTimeField(auto_now_add=True)
     date_modification = models.DateTimeField(auto_now_add=True)
 
