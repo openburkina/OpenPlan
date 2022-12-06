@@ -1,0 +1,45 @@
+<template>
+  <v-card
+    class="my-5"
+    outlined
+    tile
+    elevation="5"
+   >
+    <v-card-title class="text-h5" style="word-break: break-word">{{ title }}</v-card-title>
+    <v-card-subtitle>
+        <v-col cols=12 sm=4>
+            <v-text-field
+                v-model="year"
+                label="Année"
+                type="number"
+                v-on:change="$emit('year-change', $event)"
+                />
+        </v-col>
+    </v-card-subtitle>
+    <v-divider></v-divider>
+    <apexchart
+        type="bar"
+        :options="chartOptionsBar"
+        :series="seriesBar"
+        :noData="noData"
+        :height="300">
+    </apexchart>
+    </v-card>
+</template>
+
+<script>
+export default {
+    props: ["title", "chartOptionsBar","seriesBar"],
+    data() {
+        return {
+            year : new Date().getFullYear(),
+            noData: {
+            text: "No data text",
+            align: "center",
+            verticalAlign: "middle",
+            }
+            
+        }
+    }
+}
+</script>
