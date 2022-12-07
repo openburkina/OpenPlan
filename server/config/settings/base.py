@@ -93,6 +93,9 @@ LOCAL_APPS = [
     # 'undp_donors',
     # 'undp_purchase_orders',
     # 'undp_extra_features',
+    #Extension Suivi marches
+    'iati_referentiel',
+    'iati_activities'
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -142,7 +145,7 @@ JAZZMIN_SETTINGS = {
     "site_icon": None,
     # Add your own branding here
     "site_logo": "/images/logo.jpg",
-    "login_logo": None,
+    "login_logo": "/images/logo.jpg",
     "welcome_sign": "Bienvenue sur la plateforme de suivi de projets",
     # Copyright on the footer
     "copyright": "OPEN BURKINA",
