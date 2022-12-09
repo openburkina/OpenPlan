@@ -24,7 +24,7 @@ services:
       context: ./server
       dockerfile: ./compose/local/django/Dockerfile
     image: transparencyportal_local_django
-    container_name: undp_django
+    container_name: iati_django
     depends_on:
       - postgres
     volumes:
@@ -41,7 +41,7 @@ services:
       context: ./server
       dockerfile: ./compose/production/postgres/Dockerfile
     image: transparencyportal_production_postgres
-    container_name: undp_postgres
+    container_name: iati_postgres
     volumes:
       - local_postgres_data:/var/lib/postgresql/data:Z
       - local_postgres_data_backups:/backups:z
@@ -50,7 +50,7 @@ services:
 
   docs:
     image: transparencyportal_local_docs
-    container_name: undp_docs
+    container_name: iati_docs
     build:
       context: ./server
       dockerfile: ./compose/local/docs/Dockerfile

@@ -63,6 +63,7 @@ DJANGO_APPS = [
     "jazzmin",
     "django.contrib.admin",
     "django.forms",
+    "import_export",
 ]
 THIRD_PARTY_APPS = [
     'django_cron',
@@ -142,10 +143,8 @@ JAZZMIN_SETTINGS = {
     "site_title": "Suivi des projets",
     "site_header": "Suivi des projets",
     "site_brand": "Des données Ouvertes pour une transparence dans les actions",
-    "site_icon": None,
     # Add your own branding here
     "site_logo": "/images/logo.jpg",
-    "login_logo": "/images/logo.jpg",
     "welcome_sign": "Bienvenue sur la plateforme de suivi de projets",
     # Copyright on the footer
     "copyright": "OPEN BURKINA",
