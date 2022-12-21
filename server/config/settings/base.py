@@ -66,8 +66,8 @@ DJANGO_APPS = [
     "import_export",
 ]
 THIRD_PARTY_APPS = [
-    'django_cron',
-    "crispy_forms",
+    #'django_cron',
+    #"crispy_forms",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -77,7 +77,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "transparencyportal.users.apps.UsersConfig",
+    'transparencyportal.users.apps.UsersConfig',
     # Extension Marché Public
     #'ocds_master_tables',
     #'ocds_release',
@@ -142,7 +142,7 @@ AUTH_PASSWORD_VALIDATORS = [
 JAZZMIN_SETTINGS = {
     "site_title": "Suivi des projets",
     "site_header": "Suivi des projets",
-    "site_brand": "Des données Ouvertes pour une transparence dans les actions",
+    "site_brand": "SUPROS",
     # Add your own branding here
     "site_logo": "/images/logo.jpg",
     "welcome_sign": "Bienvenue sur la plateforme de suivi de projets",
@@ -172,6 +172,7 @@ MIDDLEWARE = [
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+DEFAULT_AUTO_FIELD= 'django.db.models.AutoField'
 
 # STATIC
 # ------------------------------------------------------------------------------

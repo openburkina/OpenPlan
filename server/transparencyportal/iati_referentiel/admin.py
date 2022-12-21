@@ -1,8 +1,9 @@
 from django.contrib import admin
 
-
 from iati_referentiel.models import CollaborationType, Country, DefaultAidType, DefaultFinanceType, \
 HumanitarianScope, Location, Organization, Region, Sector, Tag, Condition
+
+from iati_activities.admin import Contactline,Period,TargetComment2,TargetDimension,Comment,Dimension,DocumentLink
 
 class CollaborationTypeAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
@@ -11,7 +12,6 @@ class CollaborationTypeAdmin(admin.ModelAdmin):
     list_filter = ('code',)
 
 class CountryAdmin(admin.ModelAdmin):
-    empty_value_display = '-empty-'
     list_display = ('regionid','code','name','discriminator')
     search_fields = ('regionid','code','name')
     list_filter = ('regionid','code','name')
@@ -36,11 +36,6 @@ class LocationAdmin(admin.ModelAdmin):
     search_fields = ('countryid3','ref','location_reach','code','name')
     list_filter = ('countryid3','ref','location_reach','code','name')
 
-class OrganizationAdmin(admin.ModelAdmin):
-    list_display = ('ref','type','narrative','discriminator')
-    search_fields = ('ref','type','narrative')
-    list_filter = ('ref','type','narrative')
-
 class RegionAdmin(admin.ModelAdmin):
     list_display = ('continent','name','discriminator')
     search_fields = ('continent','name')
@@ -61,10 +56,37 @@ class ConditionAdmin(admin.ModelAdmin):
     search_fields = ('condition', 'type')
     list_filter = ('attached',)
 
+class DefaultAidTypeline(admin.StackedInline):
+    model = DefaultAidType
+
+class CollaborationTypeline(admin.StackedInline):
+    model = CollaborationType
+
+class Conditionline(admin.StackedInline):
+    model = Condition
+
+class Countryline(admin.StackedInline):
+    model = Country
+
+class DefaultFinanceTypeline(admin.StackedInline):
+    model = DefaultFinanceType
+
+class HumanitarianScopeline(admin.StackedInline):
+    model = HumanitarianScope
 
 admin.site.register(CollaborationType, CollaborationTypeAdmin)
 admin.site.register(Region, RegionAdmin)
-admin.site.register(Organization, OrganizationAdmin)
+@admin.register(Organization)
+class OrganisationAdmin(admin.ModelAdmin):
+     list_display = ('ref','type','narrative','discriminator')
+     search_fields = ('ref','type','narrative')
+     list_filter = ('ref','type','narrative')
+
+     inlines = [
+       Contactline
+    ]
+
+
 admin.site.register(Sector, SectorAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(DefaultAidType, DefaultAidTypeAdmin)
@@ -73,3 +95,7 @@ admin.site.register(HumanitarianScope, HumanitarianScopeAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Condition, ConditionAdmin)
+admin.site.register(Period)
+admin.site.register(Comment)
+admin.site.register(Dimension)
+admin.site.register(DocumentLink)
