@@ -20,16 +20,16 @@ class ActivityParticipatingOrg(models.Model):
 class ActivityDate(models.Model):
     activityid = models.ForeignKey('Activity', models.DO_NOTHING, db_column='activityid',verbose_name ='Projet')
     type = models.CharField(max_length=255, blank=True, null=True)
-    planned_start = models.CharField(db_column='Planned-start', max_length=255, blank=True, null=True,verbose_name ='Début Planifié')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    planned_end = models.CharField(db_column='Planned-end', max_length=255, blank=True, null=True, verbose_name ='Fin Planifiée')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    actual_start = models.CharField(db_column='Actual-start', max_length=255, blank=True, null=True,verbose_name ='Début Réel')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    actual_end = models.CharField(db_column='Actual-end', max_length=255, blank=True, null=True,verbose_name ='Fin Réel')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    planned_start = models.DateField(db_column='Planned-start', blank=True, null=True,verbose_name ='Début Planifié')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    planned_end = models.DateField(db_column='Planned-end', blank=True, null=True, verbose_name ='Fin Planifiée')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    actual_start = models.DateField(db_column='Actual-start', blank=True, null=True,verbose_name ='Début Réel')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    actual_end = models.DateField(db_column='Actual-end',blank=True, null=True,verbose_name ='Fin Réel')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
         managed = False
         db_table = 'Activity-date'
-        verbose_name = 'Date'
-        verbose_name_plural = 'Dates'
+        verbose_name = 'Date Activitée'
+        verbose_name_plural = 'Date Activitée'
     
 
 
@@ -41,6 +41,8 @@ class ActivityCollaborationType(models.Model):
         managed = False
         db_table = 'Activity_Collaboration-type'
         unique_together = (('activityid', 'collaboration_typeid'),)
+        verbose_name = 'Collaboration Activité'
+        verbose_name_plural = 'Collaboration Activité'
 
 
 class ActivityHumanitarianScope(models.Model):
@@ -56,14 +58,14 @@ class ActivityHumanitarianScope(models.Model):
 
 class ActualDocumentLink(models.Model):
     actualid = models.OneToOneField('Actual', models.DO_NOTHING, db_column='actualid', primary_key=True)
-    document_linkid = models.ForeignKey('DocumentLink', models.DO_NOTHING, db_column='Document-linkID')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    document_linkid = models.ForeignKey('DocumentLink', models.DO_NOTHING, db_column='Document-linkID',verbose_name='Lien Document')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
         managed = False
         db_table = 'Actual_Document-link'
         unique_together = (('actualid', 'document_linkid'),)
-        verbose_name = 'Document Actuel'
-        verbose_name_plural = 'Documents Actuel'
+        verbose_name = 'Document Réel'
+        verbose_name_plural = 'Documents Réel'
 
 
 class BaselineDocumentLink(models.Model):
@@ -78,21 +80,23 @@ class BaselineDocumentLink(models.Model):
 
 class ContactInfo(models.Model):
     organizationid = models.ForeignKey(Organization, models.DO_NOTHING, db_column='organizationid')
-    person_name = models.CharField(db_column='Person-name', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    person_name = models.CharField(db_column='Person-name', max_length=255, blank=True, null=True,verbose_name='Nom et Prenom(s)')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     job_title = models.CharField(db_column='Job-title', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     telephone = models.CharField(max_length=255, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
-    website = models.CharField(max_length=255, blank=True, null=True)
+    website = models.CharField(max_length=255, blank=True, null=True,verbose_name='Site Web')
 
     class Meta:
         managed = False
         db_table = 'Contact-info'
         verbose_name = 'Contact'
         verbose_name_plural = 'Contacts'
+    def __str__(self):
+        return '%s - %s - %s' % (self.person_name, self.job_title, self.organizationid.ref)
 
 
 class DefaultFinanceTypeActivity(models.Model):
-    default_finance_typeid = models.OneToOneField(DefaultFinanceType, models.DO_NOTHING, db_column='Default-finance-typeID', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    default_finance_typeid = models.OneToOneField(DefaultFinanceType, models.DO_NOTHING, db_column='Default-finance-typeID', primary_key=True,verbose_name ='Type Financement')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     activityid = models.ForeignKey('Activity', models.DO_NOTHING, db_column='activityid')
 
     class Meta:
@@ -120,8 +124,8 @@ class DocumentLink(models.Model):
 
 
 class DocumentLinkIndicator(models.Model):
-    document_linkid = models.OneToOneField(DocumentLink, models.DO_NOTHING, db_column='Document-linkID', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    indicatorid = models.ForeignKey('Indicator', models.DO_NOTHING, db_column='indicatorid')
+    document_linkid = models.OneToOneField(DocumentLink, models.DO_NOTHING, db_column='Document-linkID', primary_key=True,verbose_name ='Lien document')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    indicatorid = models.ForeignKey('Indicator', models.DO_NOTHING, db_column='indicatorid',verbose_name ='Indicateur')
 
     class Meta:
         managed = False
@@ -132,8 +136,8 @@ class DocumentLinkIndicator(models.Model):
 
 
 class DocumentLinkResults(models.Model):
-    document_linkid = models.OneToOneField(DocumentLink, models.DO_NOTHING, db_column='Document-linkID', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    resultsid = models.ForeignKey('Results', models.DO_NOTHING, db_column='resultsid')
+    document_linkid = models.OneToOneField(DocumentLink, models.DO_NOTHING, db_column='Document-linkID', primary_key=True,verbose_name ='Lien Document')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    resultsid = models.ForeignKey('Results', models.DO_NOTHING, db_column='resultsid',verbose_name ='Resultat')
 
     class Meta:
         managed = False
@@ -143,40 +147,44 @@ class DocumentLinkResults(models.Model):
         verbose_name_plural = 'Document Résultat'
 
 class PlannedDisbursement(models.Model):
-    activityid = models.ForeignKey('Activity', models.DO_NOTHING, db_column='activityid')
-    type = models.CharField(max_length=255, blank=True, null=True)
-    period_start = models.CharField(db_column='Period-start', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    period_end = models.CharField(db_column='Period-end', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    value = models.FloatField()
-    currency = models.CharField(max_length=255, blank=True, null=True)
-    value_date = models.CharField(db_column='Value-date', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    activityid = models.ForeignKey('Activity', models.DO_NOTHING, db_column='activityid',verbose_name ='Activité')
+    type = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Type')
+    period_start = models.DateField(db_column='Period-start', blank=True, null=True,verbose_name ='Période Debut')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    period_end = models.DateField(db_column='Period-end', blank=True, null=True,verbose_name ='Période Fin')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    value = models.FloatField(verbose_name ='Montant')
+    currency = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Dévide')
+    value_date = models.DateField(db_column='Value-date',blank=True, null=True,verbose_name ='Valeur Date')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
         managed = False
         db_table = 'Planned-disbursement'
+        verbose_name = 'Plan de distribution'
+        verbose_name_plural = 'Plan de distribution'
 
 
 class Transaction(models.Model):
-    regionid3 = models.ForeignKey(Region, models.DO_NOTHING, db_column='regionid3')
-    countryid3 = models.ForeignKey(Country, models.DO_NOTHING, db_column='countryid3')
-    organizationid2 = models.ForeignKey(Organization, models.DO_NOTHING, db_column='organizationid2',related_name='provider')
-    organizationid = models.ForeignKey(Organization, models.DO_NOTHING, db_column='organizationid',related_name='receiver')
+    regionid3 = models.ForeignKey(Region, models.DO_NOTHING, db_column='regionid3',verbose_name ='Région')
+    countryid3 = models.ForeignKey(Country, models.DO_NOTHING, db_column='countryid3',verbose_name ='Pays')
+    organizationid2 = models.ForeignKey(Organization, models.DO_NOTHING, db_column='organizationid2',related_name='provider',verbose_name ='Donneur')
+    organizationid = models.ForeignKey(Organization, models.DO_NOTHING, db_column='organizationid',related_name='receiver',verbose_name ='Receveur')
     activityid = models.ForeignKey('Activity', models.DO_NOTHING, db_column='activityid')
-    ref = models.CharField(max_length=255, blank=True, null=True)
-    humanitarian = models.BooleanField()
-    transaction_type = models.CharField(db_column='Transaction-type', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    transaction_date = models.CharField(db_column='Transaction-date', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    value = models.FloatField()
-    currency = models.CharField(max_length=255, blank=True, null=True)
-    value_date = models.CharField(db_column='Value-date', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    description = models.CharField(max_length=255, blank=True, null=True)
-    disbursement_channel = models.CharField(db_column='Disbursement-channel', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    ref = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Réference')
+    humanitarian = models.BooleanField(verbose_name ='Humanitaire')
+    transaction_type = models.CharField(db_column='Transaction-type', max_length=255, blank=True, null=True,verbose_name ='Type Transaction')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    transaction_date = models.DateField(verbose_name ='Date Transaction')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    value = models.FloatField(verbose_name ='Montant')
+    currency = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Dévise')
+    value_date = models.DateField(verbose_name ='Date Montant')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    description = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Description')
+    disbursement_channel = models.CharField(db_column='Disbursement-channel', max_length=255, blank=True, null=True,verbose_name ='Chaîne de distribution')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
         managed = False
         db_table = 'Transaction'
         verbose_name = 'Transaction'
         verbose_name_plural = 'Transactions'
+    def __str__(self):
+        return '%s - %s -%s' % (self.ref, self.value,self.currency)
 
 
 
@@ -185,29 +193,31 @@ class Activity(models.Model):
     countryid3 = models.ForeignKey(Country, models.DO_NOTHING, db_column='countryid3',verbose_name ='Pays')
     activityid = models.ForeignKey('self', models.DO_NOTHING, db_column='activityid', blank=True, null=True,verbose_name ='Projet Parent')
     contact_infoid = models.ForeignKey(ContactInfo, models.DO_NOTHING, db_column='Contact-infoID',verbose_name ='Contact')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    last_updated_datetime = models.CharField(db_column='Last-updated-datetime', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    lang = models.CharField(max_length=255, blank=True, null=True)
+    last_updated_datetime = models.DateField(db_column='Last-updated-datetime',blank=True, null=True,auto_now=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    lang = models.CharField(max_length=255, blank=True, null=True,verbose_name='Language')
     default_currency = models.CharField(db_column='Default-currency', max_length=255, blank=True, null=True,verbose_name ='Dévise')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    humanitarian = models.BooleanField(verbose_name ='HUmanitaire')
+    humanitarian = models.BooleanField(verbose_name ='Humanitaire')
     hierarchy = models.IntegerField(verbose_name ='Hiérachie')
     budget_not_provided = models.CharField(db_column='Budget-not-provided', max_length=255, blank=True, null=True,verbose_name ='Budget non approvisé')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     iati_identifier = models.BigIntegerField(db_column='Iati-identifier')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    title = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Identifiant')
+    title = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Intitulé')
     description = models.CharField(max_length=255, blank=True, null=True)
     activity_status = models.CharField(db_column='Activity-status', max_length=255, blank=True, null=True,verbose_name ='Status')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     activity_scope = models.CharField(db_column='Activity-scope', max_length=255, blank=True, null=True,verbose_name ='Portée Activité')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    type_relationship = models.CharField(db_column='Type-relationship', max_length=255, blank=True, null=True,verbose_name ='Type Rélation')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    type_relationship = models.CharField(db_column='Type-relationship', max_length=255, blank=True, null=True,verbose_name ='Type Relation')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
         managed = False
         db_table = 'activity'
-        verbose_name = 'Gestion Projet'
-        verbose_name_plural = 'Gestion des Projets'
+        verbose_name = 'Activitée'
+        verbose_name_plural = 'Activitées'
+    def __str__(self):
+        return '%s - %s' % (self.iati_identifier, self.title)
 
 
 class ActivityLocation(models.Model):
     activityid = models.OneToOneField(Activity, models.DO_NOTHING, db_column='activityid', primary_key=True)
-    locationid = models.ForeignKey(Location, models.DO_NOTHING, db_column='locationid')
+    locationid = models.ForeignKey(Location, models.DO_NOTHING, db_column='locationid',verbose_name='Localisation')
 
     class Meta:
         managed = False
@@ -218,8 +228,8 @@ class ActivityLocation(models.Model):
 
 
 class ActivityOrganization(models.Model):
-    activityid = models.OneToOneField(Activity, models.DO_NOTHING, db_column='activityid', primary_key=True)
-    organizationid = models.ForeignKey(Organization, models.DO_NOTHING, db_column='organizationid',related_name='bailleuractivite',)
+    activityid = models.OneToOneField(Activity, models.DO_NOTHING, db_column='activityid', primary_key=True,verbose_name ='Projet')
+    organizationid = models.ForeignKey(Organization, models.DO_NOTHING, db_column='organizationid',related_name='bailleuractivite',verbose_name='Organisation')
 
     class Meta:
         managed = False
@@ -231,7 +241,7 @@ class ActivityOrganization(models.Model):
 
 class ActivitySector(models.Model):
     activityid = models.OneToOneField(Activity, models.DO_NOTHING, db_column='activityid', primary_key=True)
-    sectorid = models.ForeignKey(Sector, models.DO_NOTHING, db_column='sectorid')
+    sectorid = models.ForeignKey(Sector, models.DO_NOTHING, db_column='sectorid',verbose_name ='Secteur')
 
     class Meta:
         managed = False
@@ -243,87 +253,105 @@ class ActivitySector(models.Model):
 
 class ActivityTag(models.Model):
     activityid = models.OneToOneField(Activity, models.DO_NOTHING, db_column='activityid', primary_key=True)
-    tagid = models.ForeignKey(Tag, models.DO_NOTHING, db_column='tagid')
+    tagid = models.ForeignKey(Tag, models.DO_NOTHING, db_column='tagid',verbose_name ='Etiquette')
 
     class Meta:
         managed = False
         db_table = 'activity_tag'
         unique_together = (('activityid', 'tagid'),)
         verbose_name = 'Etiquette Projet'
-        verbose_name_plural = 'ETiquette Projet'
+        verbose_name_plural = 'Etiquette Projet'
 
 
 class Actual(models.Model):
-    value = models.CharField(max_length=255, blank=True, null=True)
-    periodid = models.ForeignKey('Period', models.DO_NOTHING, db_column='periodid')
+    value = models.CharField(max_length=255, blank=True, null=True,verbose_name='Valeur')
+    periodid = models.ForeignKey('Period', models.DO_NOTHING, db_column='periodid',verbose_name='Periode')
 
     class Meta:
         managed = False
         db_table = 'actual'
+        verbose_name='Réel'
+    def __str__(self):
+        return '%s' % (self.value)
 
 
 class ActualDimension(models.Model):
     actualid = models.OneToOneField(Actual, models.DO_NOTHING, db_column='actualid', primary_key=True)
-    dimensionid = models.ForeignKey('Dimension', models.DO_NOTHING, db_column='dimensionid')
+    dimensionid = models.ForeignKey('Dimension', models.DO_NOTHING, db_column='dimensionid',verbose_name='Dimension')
 
     class Meta:
         managed = False
         db_table = 'actual_dimension'
         unique_together = (('actualid', 'dimensionid'),)
+        verbose_name='Dimension Réel'
 
 
 class Baseline(models.Model):
-    indicatorid = models.ForeignKey('Indicator', models.DO_NOTHING, db_column='indicatorid')
-    year = models.IntegerField()
-    value = models.CharField(max_length=255, blank=True, null=True)
-    date = models.CharField(db_column='Date', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    indicatorid = models.ForeignKey('Indicator', models.DO_NOTHING, db_column='indicatorid',verbose_name='Indicateur')
+    year = models.IntegerField(verbose_name ='Année')
+    value = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Valeur')
+    date = models.DateField(db_column='Date', blank=True, null=True,verbose_name ='Date')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'baseline'
+        verbose_name='Ligne de Base'
+    def __str__(self):
+        return '%s' % (self.value)
 
 
 class Budget(models.Model):
     activityid = models.ForeignKey(Activity, models.DO_NOTHING, db_column='activityid')
-    type = models.CharField(max_length=255, blank=True, null=True)
-    statusst = models.CharField(max_length=255, blank=True, null=True)
-    period_start = models.CharField(db_column='Period-start', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    period_end = models.CharField(db_column='Period-end', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    value = models.FloatField()
-    currency = models.CharField(max_length=255, blank=True, null=True)
-    value_date = models.CharField(db_column='Value-date', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    type = models.CharField(max_length=255, blank=True, null=True,verbose_name='Type')
+    statusst = models.CharField(max_length=255, blank=True, null=True,verbose_name='Statut')
+    period_start = models.DateField(db_column='Period-start', max_length=255, blank=True, null=True,verbose_name='Période Début')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    period_end = models.DateField(db_column='Period-end', max_length=255, blank=True, null=True,verbose_name='Période Fin')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    value = models.FloatField(verbose_name='Montant')
+    currency = models.CharField(max_length=255, blank=True, null=True,verbose_name='Dévise')
+    value_date = models.DateField(db_column='Value-date', blank=True, null=True,verbose_name='Valeur Date')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
         managed = False
         db_table = 'budget'
+        verbose_name = 'Budget'
+        verbose_name_plural = 'Budgets'
+    def __str__(self):
+        return '%s - %s' % (self.value, self.currency)
 
 
 class Comment(models.Model):
-    date = models.CharField(db_column='Date', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    text = models.CharField(max_length=255, blank=True, null=True)
+    date = models.DateField(db_column='Date', blank=True, null=True,verbose_name='Date')  # Field name made lowercase.
+    text = models.CharField(max_length=255, blank=True, null=True,verbose_name='Texte')
 
     class Meta:
         managed = False
         db_table = 'comment'
+        verbose_name ='Commentaire'
+    def __str__(self):
+        return '%s - %s' % (self.date, self.text)
 
 
 class ConditionActivity(models.Model):
-    conditionid = models.OneToOneField(Condition, models.DO_NOTHING, db_column='conditionid', primary_key=True)
+    conditionid = models.OneToOneField(Condition, models.DO_NOTHING, db_column='conditionid', primary_key=True,verbose_name='Condition')
     activityid = models.ForeignKey(Activity, models.DO_NOTHING, db_column='activityid')
 
     class Meta:
         managed = False
         db_table = 'condition_activity'
         unique_together = (('conditionid', 'activityid'),)
+        verbose_name = 'Condition'
+        verbose_name_plural = 'Conditions'
 
 class DefaultAidTypeActivity(models.Model):
-    default_aid_typeid = models.OneToOneField(DefaultAidType, models.DO_NOTHING, db_column='default-aid-typeID', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    activityid = models.ForeignKey(Activity, models.DO_NOTHING, db_column='activityid')
+    default_aid_typeid = models.OneToOneField(DefaultAidType, models.DO_NOTHING, db_column='default-aid-typeID', primary_key=True,verbose_name = 'Type Aide Par Defaut')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    activityid = models.ForeignKey(Activity, models.DO_NOTHING, db_column='activityid',verbose_name = 'Activité')
 
     class Meta:
         managed = False
         db_table = 'default-aid-type_Activity'
         unique_together = (('default_aid_typeid', 'activityid'),)
+        verbose_name = 'Type Aide Par Defaut'
+        verbose_name_plural = 'Type Aide Par Defaut'
 
 
 class Dimension(models.Model):
@@ -333,85 +361,96 @@ class Dimension(models.Model):
     class Meta:
         managed = False
         db_table = 'dimension'
-
-
+    def __str__(self):
+        return '%s - %s' % (self.name, self.value)
 
 
 class Indicator(models.Model):
-    resultsid = models.ForeignKey('Results', models.DO_NOTHING, db_column='resultsid')
-    measure = models.CharField(max_length=255, blank=True, null=True)
-    ascending = models.BooleanField()
-    aggregation_status = models.BooleanField(db_column='Aggregation-status')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    title = models.CharField(max_length=255, blank=True, null=True)
-    description = models.CharField(max_length=255, blank=True, null=True)
-    code = models.CharField(max_length=255, blank=True, null=True)
+    resultsid = models.ForeignKey('Results', models.DO_NOTHING, db_column='resultsid',verbose_name ='Resultat')
+    measure = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Mesure')
+    ascending = models.BooleanField(verbose_name ='Ascendant')
+    aggregation_status = models.BooleanField(db_column='Aggregation-status',verbose_name ='Statut Agrégation')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    title = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Titre')
+    description = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Description')
+    code = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Code')
 
     class Meta:
         managed = False
         db_table = 'indicator'
+        verbose_name ='Indicateur'
+    def __str__(self):
+        return '%s - %s' % (self.title, self.code)
 
 
 class Period(models.Model):
-    indicatorid = models.ForeignKey(Indicator, models.DO_NOTHING, db_column='indicatorid')
-    period_start = models.CharField(db_column='Period-start', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    period_end = models.CharField(db_column='Period-end', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    indicatorid = models.ForeignKey(Indicator, models.DO_NOTHING, db_column='indicatorid',verbose_name ='Indicateur')
+    period_start = models.DateField(db_column='Period-start', blank=True, null=True,verbose_name ='Début Période')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    period_end = models.DateField(db_column='Period-end', blank=True, null=True,verbose_name ='Fin période')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
         managed = False
         db_table = 'period'
-
-
-
-
+        verbose_name ='Periode'
+    def __str__(self):
+        return 'Debut %s - Fin %s' % (self.period_start, self.period_end)
 
 class Results(models.Model):
     activityid = models.ForeignKey(Activity, models.DO_NOTHING, db_column='activityid')
-    type = models.CharField(max_length=255, blank=True, null=True)
-    aggregation_status = models.BooleanField(db_column='Aggregation-status')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    title = models.CharField(max_length=255, blank=True, null=True)
-    description = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=255, blank=True, null=True,verbose_name='Type')
+    aggregation_status = models.BooleanField(db_column='Aggregation-status',verbose_name='Status Aggregation')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    title = models.CharField(max_length=255, blank=True, null=True,verbose_name='Titre')
+    description = models.CharField(max_length=255, blank=True, null=True,verbose_name='Description')
 
     class Meta:
         managed = False
         db_table = 'results'
+        verbose_name = 'Resultat'
+        verbose_name_plural = 'Resultats'
+    def __str__(self):
+        return 'Iati identifier %s - Resultat Titre %s' % (self.activityid.iati_identifier, self.title)
 
 class Target(models.Model):
-    locationid = models.ForeignKey(Location, models.DO_NOTHING, db_column='locationid')
-    value = models.CharField(max_length=255, blank=True, null=True)
-    commentid = models.IntegerField()
-    periodid = models.ForeignKey(Period, models.DO_NOTHING, db_column='periodid')
+    locationid = models.ForeignKey(Location, models.DO_NOTHING, db_column='locationid',verbose_name ='Localité')
+    value = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Valeur')
+    periodid = models.ForeignKey(Period, models.DO_NOTHING, db_column='periodid',verbose_name ='Periode')
 
     class Meta:
         managed = False
         db_table = 'target'
+        verbose_name='Jalon'
 
 
 class TargetComment2(models.Model):
     targetid = models.OneToOneField(Target, models.DO_NOTHING, db_column='targetid', primary_key=True)
-    commentid = models.ForeignKey(Comment, models.DO_NOTHING, db_column='commentid')
+    commentid = models.ForeignKey(Comment, models.DO_NOTHING, db_column='commentid', verbose_name='Commentaire')
 
     class Meta:
         managed = False
         db_table = 'target_comment2'
         unique_together = (('targetid', 'commentid'),)
+        verbose_name = 'Commentaire Jalon'
 
 
 class TargetDimension(models.Model):
     targetid = models.OneToOneField(Target, models.DO_NOTHING, db_column='targetid', primary_key=True)
-    dimensionid = models.ForeignKey(Dimension, models.DO_NOTHING, db_column='dimensionid')
+    dimensionid = models.ForeignKey(Dimension, models.DO_NOTHING, db_column='dimensionid',verbose_name='Dimension')
 
     class Meta:
         managed = False
         db_table = 'target_dimension'
         unique_together = (('targetid', 'dimensionid'),)
+        verbose_name='Dimension Jalon'
+
 
 
 class TransactionSector(models.Model):
     transactionid = models.OneToOneField(Transaction, models.DO_NOTHING, db_column='transactionid', primary_key=True)
-    sectorid = models.ForeignKey(Sector, models.DO_NOTHING, db_column='sectorid',related_name='secteur')
+    sectorid = models.ForeignKey(Sector, models.DO_NOTHING, db_column='sectorid',related_name='secteur',verbose_name='Secteur')
 
     class Meta:
         managed = False
         db_table = 'transaction_sector'
         unique_together = (('transactionid', 'sectorid'),)
+        verbose_name = 'Secteur Transaction'
+        verbose_name_plural = 'Secteur Transaction'
 
