@@ -31,7 +31,7 @@ app_name = "api"
 urlpatterns = router.urls
 
 urlpatterns += [
-    
+    path("projets/", include("iati_activities.urls")),
     path('docs/', include("api_doc.urls")),
     
 ]

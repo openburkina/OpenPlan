@@ -1,9 +1,9 @@
 <template>
   <div>
-   <Titre title="Travaux" />
+   <Titre title="Projets" />
     <v-card color="indigo lighten-5 elevation-0 mx-4 mt-4 mb-16">
       <v-card-title>
-        Liste des travaux
+        Liste des Projets
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -49,17 +49,15 @@ export default {
             sortable: false,
          
           },
-        { text: 'ID', value: 'record_ocid' },
-        { text: 'Titre', value: 'title' },
-        { text: 'Bailleur', value: 'buyer_name' },
-        { text: 'Bénéficiaire', value: 'procuring_entity' },
-        { text: 'Budget', value: 'value' },
-        { text: 'Devise', value: 'currency' },
-        { text: 'Pays', value: 'country' },
-        { text: 'Région', value: 'region' },
-        { text: 'Secteur', value: 'sector' },
-        { text: 'Statut', value: 'step' },
-       
+        { text: 'Identifiant', value: 'id' },
+        { text: 'Identifiant IATI', value: 'iati_identifier' },
+        { text: 'Intitulé', value: 'title' },
+        { text: 'Description', value: 'description' },
+        { text: 'Status', value: 'activity_status' },
+        { text: 'Portée Activitée', value: 'activity_scope' },
+        { text: 'Humanitaire', value: 'humanitarian' },
+        { text: 'Dévise', value: 'default_currency' },
+        { text: 'Language', value: 'lang' },
       ],
     }
   },

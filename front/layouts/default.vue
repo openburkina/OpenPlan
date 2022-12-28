@@ -37,7 +37,7 @@
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Activités</v-list-item-title>
+            <v-list-item-title>Projets</v-list-item-title>
           </v-list-item>
           
           <v-list-item to="/buyers">
@@ -51,7 +51,7 @@
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Régions</v-list-item-title>
+            <v-list-item-title>Localisation</v-list-item-title>
           </v-list-item>
           
         </v-list-item-group>
@@ -84,14 +84,14 @@
           <span class="mr-2 white--text">Accueil</span>
         </v-btn>
          <v-btn to="/projects" text>
-          <span class="mr-2 white--text">Activités</span>
+          <span class="mr-2 white--text">Projets</span>
         </v-btn>
         <v-btn text to="/buyers">
           <span class="mr-2  white--text">Bailleurs</span>
         </v-btn>
         <!-- More menu -->
         <v-btn text to="/regions">
-          <span class="mr-2  white--text">Régions</span>
+          <span class="mr-2  white--text">Localisation</span>
         </v-btn>
       </div>
     </v-app-bar>

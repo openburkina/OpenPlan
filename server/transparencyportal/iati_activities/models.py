@@ -2,16 +2,18 @@ from django.db import models
 from iati_referentiel.models import CollaborationType, Country , DefaultAidType, \
     DefaultFinanceType, HumanitarianScope, Location, Organization, Region, Sector, Tag, Condition
 
+from .constants import STATUS,ROLE,TYPE
+
 class ActivityParticipatingOrg(models.Model):
-    role = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Rôle')
+    role = models.CharField(max_length=255, blank=True, null=True,choices=ROLE,verbose_name ='Rôle')
     organizationid = models.ForeignKey(Organization, models.DO_NOTHING, db_column='organizationid', verbose_name ='Organisation')
     activityid = models.ForeignKey('Activity', models.DO_NOTHING, db_column='activityid',verbose_name ='Projet')
 
     class Meta:
         managed = False
         db_table = 'Activity-Participating-org'
-        verbose_name = 'Participant'
-        verbose_name_plural = 'Participants'
+        verbose_name = 'Organisme Participant'
+        verbose_name_plural = 'Organismes Participants'
 
     def __str__(self):
         return '%s - %s (%s)' % (self.activityid, self.role, self.organizationid)
@@ -158,8 +160,8 @@ class PlannedDisbursement(models.Model):
     class Meta:
         managed = False
         db_table = 'Planned-disbursement'
-        verbose_name = 'Plan de distribution'
-        verbose_name_plural = 'Plan de distribution'
+        verbose_name = 'Décaissement Prévu'
+        verbose_name_plural = 'Décaissement Prévus'
 
 
 class Transaction(models.Model):
@@ -171,10 +173,10 @@ class Transaction(models.Model):
     ref = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Réference')
     humanitarian = models.BooleanField(verbose_name ='Humanitaire')
     transaction_type = models.CharField(db_column='Transaction-type', max_length=255, blank=True, null=True,verbose_name ='Type Transaction')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    transaction_date = models.DateField(verbose_name ='Date Transaction')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    transaction_date = models.DateField(db_column='Transaction-date',verbose_name ='Date Transaction')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     value = models.FloatField(verbose_name ='Montant')
     currency = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Dévise')
-    value_date = models.DateField(verbose_name ='Date Montant')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    value_date = models.DateField(db_column='Value-date',verbose_name ='Date Montant')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     description = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Description')
     disbursement_channel = models.CharField(db_column='Disbursement-channel', max_length=255, blank=True, null=True,verbose_name ='Chaîne de distribution')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
@@ -202,7 +204,7 @@ class Activity(models.Model):
     iati_identifier = models.BigIntegerField(db_column='Iati-identifier')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     title = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Intitulé')
     description = models.CharField(max_length=255, blank=True, null=True)
-    activity_status = models.CharField(db_column='Activity-status', max_length=255, blank=True, null=True,verbose_name ='Status')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    activity_status = models.CharField(db_column='Activity-status', max_length=255, blank=True, null=True,choices=STATUS,verbose_name ='Status')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     activity_scope = models.CharField(db_column='Activity-scope', max_length=255, blank=True, null=True,verbose_name ='Portée Activité')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     type_relationship = models.CharField(db_column='Type-relationship', max_length=255, blank=True, null=True,verbose_name ='Type Relation')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
@@ -270,7 +272,7 @@ class Actual(models.Model):
     class Meta:
         managed = False
         db_table = 'actual'
-        verbose_name='Réel'
+        verbose_name='Resultat Obtenu'
     def __str__(self):
         return '%s' % (self.value)
 
@@ -396,7 +398,7 @@ class Period(models.Model):
 
 class Results(models.Model):
     activityid = models.ForeignKey(Activity, models.DO_NOTHING, db_column='activityid')
-    type = models.CharField(max_length=255, blank=True, null=True,verbose_name='Type')
+    type = models.CharField(max_length=255, blank=True, null=True,choices=TYPE,verbose_name='Type')
     aggregation_status = models.BooleanField(db_column='Aggregation-status',verbose_name='Status Aggregation')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     title = models.CharField(max_length=255, blank=True, null=True,verbose_name='Titre')
     description = models.CharField(max_length=255, blank=True, null=True,verbose_name='Description')

@@ -9,22 +9,46 @@
         <v-tabs-slider></v-tabs-slider>
 
         <v-tab href="#tab-1">
-          Infos
+          Infos Général
           <v-icon>mdi-axis-arrow-info</v-icon>
         </v-tab>
-
         <v-tab href="#tab-2">
-          Spécifications
-          <v-icon>mdi-format-list-text</v-icon>
-        </v-tab>
-
-        <v-tab href="#tab-3">
-          Décaissements
+          Secteur
           <v-icon>mdi-cash</v-icon>
         </v-tab>
 
+        <v-tab href="#tab-3">
+          Organismes
+          <v-icon>mdi-chart-timeline</v-icon>
+        </v-tab>
+
         <v-tab href="#tab-4">
-          Chronologie
+          Budget
+          <v-icon>mdi-chart-timeline</v-icon>
+        </v-tab>
+
+        <v-tab href="#tab-5">
+          Condition
+          <v-icon>mdi-chart-timeline</v-icon>
+        </v-tab>
+
+        <v-tab href="#tab-6">
+          Transactions
+          <v-icon>mdi-chart-timeline</v-icon>
+        </v-tab>
+
+        <v-tab href="#tab-7">
+          Résultat
+          <v-icon>mdi-chart-timeline</v-icon>
+        </v-tab>
+
+        <v-tab href="#tab-8">
+          Type Finance
+          <v-icon>mdi-chart-timeline</v-icon>
+        </v-tab>
+
+        <v-tab href="#tab-9">
+          Type Aide
           <v-icon>mdi-chart-timeline</v-icon>
         </v-tab>
       </v-tabs>
@@ -34,13 +58,10 @@
           <ProjectInfo :info="info" />
         </v-tab-item>
         <v-tab-item value="tab-2">
-          <ProjectSpecification  :search="search"  :items="items"/>
+          <ProjectSector  :search="search"  :items="items"/>
         </v-tab-item>
         <v-tab-item value="tab-3">
-          <ProjectTransaction :search="search" :transactions="transactions"/>
-        </v-tab-item>
-        <v-tab-item value="tab-4">
-          <ProjectTimeline :search="search" :dates="dates"/>
+          <ProjectOrganisme  :search="search"  :items="organismes"/>
         </v-tab-item>
       </v-tabs-items>
   </div>
@@ -51,18 +72,19 @@
   export default {
     computed: {
       ...mapState({
-        info: 'projectInfo',
-        items: 'projectItems',
-        dates: 'projectStages',
-        transactions: 'projectTransactions'
+        info: 'projectDetails',
+        items: 'projectDetailsSector',
+        organismes:'projectDetailsOrganisme',
+      //  dates: 'projectStages',
+      //  transactions: 'projectTransactions'
       })
     },
 
     mounted() {
-      this.fetchProjectInfo(this.id);
-      this.fetchProjectItems(this.id);
-      this.fetchProjectStages(this.id);
-      this.fetchProjectTransactions(this.id);
+      this.fetchProjectsDetails(this.id);
+      this.fetchProjectsDetailsSector(this.id);
+      this.fetchProjectsDetailsOrganisme(this.id);
+    //  this.fetchProjectTransactions(this.id);
     },
 
     data() {
@@ -75,10 +97,10 @@
 
     methods: {
       ...mapActions([
-        'fetchProjectInfo',
-        'fetchProjectItems',
-        'fetchProjectStages',
-        'fetchProjectTransactions'
+        'fetchProjectsDetails',
+        'fetchProjectsDetailsSector',
+        'fetchProjectsDetailsOrganisme',
+       // 'fetchProjectTransactions'
       ]),
       getTitle(message) {
         return `${message} sur le projet : ${this.id}`

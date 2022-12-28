@@ -22,8 +22,8 @@ class Organization(models.Model):
     class Meta:
         managed = True
         db_table = 'organization'
-        verbose_name = 'Organisation'
-        verbose_name_plural = 'Organisations'
+        verbose_name = 'Organisme'
+        verbose_name_plural = 'Organismes'
     def __str__(self):
         return '%s' % (self.ref)
 
