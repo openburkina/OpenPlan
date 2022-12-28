@@ -45,7 +45,7 @@ export default {
     data(){
         return {
             open:null,
-            centerPoint : [-3.993859, 29.371619],
+            centerPoint : [11.905720,-1.293255],
             regions: regions.data,
         }
     },
