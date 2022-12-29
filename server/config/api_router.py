@@ -33,5 +33,6 @@ urlpatterns = router.urls
 urlpatterns += [
     path("projets/", include("iati_activities.urls")),
     path('docs/', include("api_doc.urls")),
+    path('bailleur/', include("iati_referentiel.urls")),
     
 ]
