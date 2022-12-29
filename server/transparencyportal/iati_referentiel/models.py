@@ -1,5 +1,5 @@
 from django.db import models
-from iati_activities.constants import ROLE
+from iati_activities.constants import ORGANISATIONTYPE,CONDITION
 
 class Region(models.Model):
     continent = models.CharField(max_length=255, blank=True, null=True)
@@ -16,7 +16,7 @@ class Region(models.Model):
 
 class Organization(models.Model):
     ref = models.CharField(max_length=255, blank=True, null=True)
-    type = models.CharField(max_length=255, blank=True, null=True, choices=ROLE)
+    type = models.CharField(max_length=255, blank=True, null=True,choices=ORGANISATIONTYPE)
     narrative = models.CharField(max_length=255, blank=True, null=True)
     discriminator = models.CharField(max_length=255)
 
@@ -140,7 +140,7 @@ class Tag(models.Model):
 class Condition(models.Model):
     attached = models.BooleanField()
     condition = models.CharField(db_column='Condition', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    type = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=255, blank=True, null=True,choices=CONDITION)
 
     class Meta:
         managed = True
@@ -149,132 +149,4 @@ class Condition(models.Model):
         verbose_name_plural = 'Conditions'
     def __str__(self):
         return '%s' % (self.condition)
-
-
-# Create your models here.
-
-""" from django.db import models
-
-class CollaborationType(models.Model):
-    code = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'Collaboration-type'
-
-
-class Condition(models.Model):
-    attached = models.BooleanField()
-    condition = models.CharField(db_column='Condition', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    type = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'Condition'
-
-
-class DefaultFinanceType(models.Model):
-    code = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'Default-finance-type'
-
-
-
-class HumanitarianScope(models.Model):
-    type = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'Humanitarian-scope'
-
-
-
-class Tag(models.Model):
-    code = models.CharField(max_length=255, blank=True, null=True)
-    narrative = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'Tag'
-
-class Country(models.Model):
-    regionid = models.ForeignKey('Region', models.DO_NOTHING, db_column='regionid')
-    code = models.CharField(max_length=255, blank=True, null=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    discriminator = models.CharField(max_length=255)
-
-    class Meta:
-        managed = False
-        db_table = 'country'
-
-
-class DefaultAidType(models.Model):
-    code = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'default-aid-type'
-
-
-
-class Dimension(models.Model):
-    name = models.CharField(max_length=255, blank=True, null=True)
-    value = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'dimension'
-
-
-class Location(models.Model):
-    countryid3 = models.ForeignKey(Country, models.DO_NOTHING, db_column='countryid3')
-    ref = models.CharField(max_length=255, blank=True, null=True)
-    location_reach = models.CharField(db_column='Location-reach', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    code = models.CharField(max_length=255, blank=True, null=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    description = models.CharField(max_length=255, blank=True, null=True)
-    activity_location = models.CharField(db_column='Activity-location', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    administrative_code = models.IntegerField(db_column='Administrative-code', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    administrative_level = models.CharField(db_column='Administrative-level', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    pos = models.CharField(max_length=255, blank=True, null=True)
-    location_class = models.CharField(db_column='Location-class', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-
-    class Meta:
-        managed = False
-        db_table = 'location'
-
-
-class Organization(models.Model):
-    ref = models.CharField(max_length=255, blank=True, null=True)
-    type = models.CharField(max_length=255, blank=True, null=True)
-    narrative = models.CharField(max_length=255, blank=True, null=True)
-    discriminator = models.CharField(max_length=255)
-
-    class Meta:
-        managed = False
-        db_table = 'organization'
-
-
-
-class Region(models.Model):
-    continent = models.CharField(max_length=255, blank=True, null=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    discriminator = models.CharField(max_length=255)
-
-    class Meta:
-        managed = False
-        db_table = 'region'
-
-
-class Sector(models.Model):
-    code = models.CharField(max_length=255, blank=True, null=True)
-    percentage = models.FloatField()
-    narrative = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'sector' """
-
 

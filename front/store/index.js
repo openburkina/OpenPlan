@@ -9,7 +9,12 @@ export const state = () => ({
     projectDetails : [],
     projectDetailsSector : [],
     projectDetailsOrganisation : [],
-    projectDetailsOrganisme : []
+    projectDetailsOrganisme : [],
+    projectDetailsCondition : [],
+    projectDetailsCollaboration : [],
+    projectDetailsIndicateur : [],
+    projectDetailsTransaction : []
+
 
   })
 
@@ -31,6 +36,18 @@ export const mutations = {
     },
     setProjectDetailsOrganisme(state, payload) {
         state.projectDetailsOrganisme = payload
+    },
+    setProjectDetailsTransaction(state, payload) {
+        state.projectDetailsTransaction = payload
+    },
+    setProjectDetailsCondition(state, payload) {
+        state.projectDetailsCondition = payload
+    },
+    setProjectDetailsCollaboration(state, payload) {
+        state.projectDetailsCollaboration = payload
+    },
+    setProjectDetailsIndicateur(state, payload) {
+        state.projectDetailsIndicateur = payload
     },
 /**
      * Liste des travaux
@@ -125,6 +142,38 @@ export const actions = {
             `http://localhost:8000/api/projets/${id}/organisme`
         ).then(res => {
             commit("setProjectDetailsOrganisme", res.data)
+        })
+    },
+
+    async fetchProjectsDetailsTransaction({ commit },id) {
+        await axios.get(
+            `http://localhost:8000/api/projets/${id}/transaction`
+        ).then(res => {
+            commit("setProjectDetailsTransaction", res.data)
+        })
+    },
+
+    async fetchProjectsDetailsCondition({ commit },id) {
+        await axios.get(
+            `http://localhost:8000/api/projets/${id}/condition`
+        ).then(res => {
+            commit("setProjectDetailsCondition", res.data)
+        })
+    },
+
+    async fetchProjectsDetailsCollaboration({ commit },id) {
+        await axios.get(
+            `http://localhost:8000/api/projets/${id}/collaboration`
+        ).then(res => {
+            commit("setProjectDetailsCollaboration", res.data)
+        })
+    },
+
+    async fetchProjectsDetailsIndicateur({ commit },id) {
+        await axios.get(
+            `http://localhost:8000/api/projets/${id}/indicateur`
+        ).then(res => {
+            commit("setProjectDetailsIndicateur", res.data)
         })
     },
 }

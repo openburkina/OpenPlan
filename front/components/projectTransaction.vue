@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Titre title="Transactions liées au travail" />
+    <Titre title="Transactions liées au projets" />
     <v-card class="container mx-auto px-3">
       <v-data-table
         :headers="headersDecaissements"
-        :items="transactions"
+        :items="items"
         :search="search"
         class="elevation-0"
       >
@@ -14,15 +14,23 @@
 </template>
 <script>
 export default {
-  props: ['search', 'transactions'],
+  props: ['search', 'items'],
   data() {
     return {
       
       headersDecaissements: [
-        { text: 'Date', value: 'date' },
-        { text: 'Montant', value: 'value.amount' },
-        { text: 'Devise', value: 'value.currency' },
-        { text: 'Livrable', value: 'title' },
+        { text: 'ref', value: 'ref' },
+        { text: 'description', value: 'description' },
+        { text: 'transaction_type', value: 'transaction_type' },
+        { text: 'transaction_date', value: 'transaction_date' },
+        { text: 'value', value: 'value' },
+        { text: 'currency', value: 'currency' },
+        { text: 'Donneur', value: 'organizationid2.narrative' },
+        { text: 'Receveur', value: 'organizationid.narrative' },
+        { text: 'disbursement_channel', value: 'disbursement_channel' },
+        { text: 'humanitarian', value: 'humanitarian' },
+
+        
       ],
     }
   },

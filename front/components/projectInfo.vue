@@ -34,7 +34,7 @@
     <v-divider></v-divider>
     <v-list-item>
       <v-list-item-title>Localisation</v-list-item-title>
-      <v-list-item-subtitle>{{ info.regionid3.continent }} // {{ info.regionid3.name }} // {{ info.countryid3.name }} </v-list-item-subtitle>
+      <v-list-item-subtitle>{{ info.regionid3.name }} // {{ info.countryid3.name }} </v-list-item-subtitle>
     </v-list-item>
   </v-card>
 </div>
