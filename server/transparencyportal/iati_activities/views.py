@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from django.shortcuts import get_object_or_404
+from django.db.models.aggregates import Sum,Count
+from django.db.models.expressions import F, Value
 
 from iati_activities.models import Activity,ActivitySector,ActivityOrganization,ActivityParticipatingOrg, \
     Transaction,ConditionActivity,ActivityCollaborationType, Indicator, Budget, Results, PlannedDisbursement
@@ -8,8 +10,7 @@ from iati_activities.models import Activity,ActivitySector,ActivityOrganization,
 from iati_activities.serializers import ActivitySerializer, ActivityDetailsSerializer,ActivitySectorSerializer,ActivityOrganizationSerializer,\
     ActivityParticipatingOrgSerializer,TransactionSerializer,ConditionActivitySerializer,ActivityCollaborationTypeSerializer, IndicatorSerializer, BudgetSerializer, \
         ResultsSerializer, PlannedDisbursementSerializer
-from django.db.models.expressions import F,value
-from django.db.models.agregates import F,value
+
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -21,6 +22,10 @@ class ActivityViews(viewsets.ReadOnlyModelViewSet):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
 
+class OrganisationViews(viewsets.ReadOnlyModelViewSet):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
+
 class ActivityDetailsViews(viewsets.ReadOnlyModelViewSet):
     queryset = Activity.objects.all()
     serializer_class = ActivityDetailsSerializer
@@ -29,12 +34,6 @@ class ActivitySectorViews(APIView):
     def get(self, request, activity_id):
         queryset = ActivitySector.objects.filter(activityid=activity_id)
         data = ActivitySectorSerializer(queryset, many=True, context={'request': request}).data
-        return Response(data)
-
-class ActivityOrganisationViews(APIView):
-    def get(self, request, activity_id):
-        queryset = ActivityOrganization.objects.filter(activityid=activity_id)
-        data = ActivityOrganizationSerializer(queryset, many=True, context={'request': request}).data
         return Response(data)
 
 class ActivityParticipatingOrgViews(APIView):
@@ -103,10 +102,4 @@ class ActivityPlannedDistViews(APIView):
     def get(self, request, activity_id):
         queryset = PlannedDisbursement.objects.filter(activityid=activity_id)
         data = PlannedDisbursementSerializer(queryset, many=True, context={'request': request}).data
-        return Response(data)
-
-class TransaitionDecaissementRegionViews(APIView):
-    def get(self, request, region_id):
-        queryset = Transaction.objects.filter(regionid3=region_id, transaction_type="Disbursement")
-        data = TransactionSerializer(queryset, many=True, context={'request': request}).data
         return Response(data)

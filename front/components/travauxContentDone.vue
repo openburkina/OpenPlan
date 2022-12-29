@@ -2,16 +2,6 @@
   <v-card>
     <v-card-title>
       {{title}}
-       <v-combobox
-          v-model="select"
-          :items="items"
-          label="Choisir l'intervalle des années"
-          multiple
-          chips
-          counter="2"
-          @change="onChange"
-          auto-select-first
-        ></v-combobox>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -32,7 +22,7 @@
       :options=
       "{sortBy: []}"
       :footer-props="{
-        'items-per-page-text':'Liste de travaux'
+        'items-per-page-text':'Liste de projet'
       }">
    
     </v-data-table>
@@ -60,15 +50,13 @@ export default {
             sortable: false,
             value: 'name',
           },
-          { text: 'Codage OCID', value: 'record_ocid' },
-          { text: 'Pays', value: 'country' },
-          { text: 'Region', value: 'region' },
-          { text: 'Secteur', value: 'sector' },
-          { text: 'Titre', value: 'title' },
-          { text: 'Montant', value: 'value' },
-          { text: 'Dévise', value: 'currency' },
-          { text: 'Etape', value: 'step' },
-          { text: 'Dernière mise à jour', value: 'last_update' },
+          { text: 'Codage IATI', value: 'activityid.iati_identifier' },
+          { text: 'Pays', value: 'activityid.countryid3.name' },
+          { text: 'Region', value: 'activityid.regionid3.name' },
+          { text: 'Titre', value: 'activityid.title' },
+          { text: 'Dévise', value: 'activityid.default_currency' },
+          { text: 'Etape', value: 'activityid.activity_status' },
+          { text: 'Dernière mise à jour', value: 'activityid.last_updated_datetime' },
         ],
     }
   },

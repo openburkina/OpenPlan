@@ -11,6 +11,8 @@ from rest_framework import serializers
 
 
 class ActivitySerializer(serializers.ModelSerializer):
+    regionid3 = RegionSerializer()
+    countryid3 = CountrySerializer()
     class Meta:
         model = Activity
         fields = '__all__'
@@ -98,3 +100,22 @@ class ResultsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Results
         fields = '__all__'
+
+class TransactionActivitySerializer(serializers.Serializer):
+    name = serializers.CharField()
+    value = serializers.FloatField()
+    currency = serializers.CharField()
+
+class OrganisationActivityByStatusSerializer(serializers.Serializer):
+    Identification = serializers.IntegerField()
+    Implementation = serializers.IntegerField()
+    Finalisation = serializers.IntegerField()
+    Closed = serializers.IntegerField()
+    Cancelled = serializers.IntegerField()
+    Suspended = serializers.IntegerField()
+    total = serializers.IntegerField()
+
+class OrganisationActivityByRegionSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    regionid3 = serializers.ReadOnlyField()
+    total = serializers.ReadOnlyField()

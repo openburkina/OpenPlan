@@ -10,8 +10,6 @@ class ActivityParticipatingOrg(models.Model):
     activityid = models.ForeignKey('Activity', models.DO_NOTHING, db_column='activityid',verbose_name ='Projet')
 
     class Meta:
-        managed = False
-        db_table = 'Activity-Participating-org'
         verbose_name = 'Organisme Participant'
         verbose_name_plural = 'Organismes Participants'
 
@@ -28,8 +26,6 @@ class ActivityDate(models.Model):
     actual_end = models.DateField(db_column='Actual-end',blank=True, null=True,verbose_name ='Fin Réel')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
-        managed = False
-        db_table = 'Activity-date'
         verbose_name = 'Date Activitée'
         verbose_name_plural = 'Date Activitée'
     
@@ -40,8 +36,6 @@ class ActivityCollaborationType(models.Model):
     collaboration_typeid = models.ForeignKey(CollaborationType, models.DO_NOTHING, db_column='Collaboration-typeID',verbose_name ='Type Collaboration')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
-        managed = False
-        db_table = 'Activity_Collaboration-type'
         unique_together = (('activityid', 'collaboration_typeid'),)
         verbose_name = 'Collaboration Activité'
         verbose_name_plural = 'Collaboration Activité'
@@ -52,8 +46,6 @@ class ActivityHumanitarianScope(models.Model):
     humanitarian_scopeid = models.ForeignKey(HumanitarianScope, models.DO_NOTHING, db_column='Humanitarian-scopeID',verbose_name ='Portée Humanitaire')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
-        managed = False
-        db_table = 'Activity_Humanitarian-scope'
         unique_together = (('activityid', 'humanitarian_scopeid'),)
         verbose_name = 'Portée humanitaire de lactivité'
         verbose_name_plural = 'Portée humanitaires de l"activité'
@@ -63,8 +55,6 @@ class ActualDocumentLink(models.Model):
     document_linkid = models.ForeignKey('DocumentLink', models.DO_NOTHING, db_column='Document-linkID',verbose_name='Lien Document')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
-        managed = False
-        db_table = 'Actual_Document-link'
         unique_together = (('actualid', 'document_linkid'),)
         verbose_name = 'Document Réel'
         verbose_name_plural = 'Documents Réel'
@@ -75,8 +65,6 @@ class BaselineDocumentLink(models.Model):
     document_linkid = models.ForeignKey('DocumentLink', models.DO_NOTHING, db_column='Document-linkID')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
-        managed = False
-        db_table = 'Baseline_Document-link'
         unique_together = (('baselineid', 'document_linkid'),)
 
 
@@ -89,8 +77,6 @@ class ContactInfo(models.Model):
     website = models.CharField(max_length=255, blank=True, null=True,verbose_name='Site Web')
 
     class Meta:
-        managed = False
-        db_table = 'Contact-info'
         verbose_name = 'Contact'
         verbose_name_plural = 'Contacts'
     def __str__(self):
@@ -102,8 +88,6 @@ class DefaultFinanceTypeActivity(models.Model):
     activityid = models.ForeignKey('Activity', models.DO_NOTHING, db_column='activityid')
 
     class Meta:
-        managed = False
-        db_table = 'Default-finance-type_Activity'
         unique_together = (('default_finance_typeid', 'activityid'),)
         verbose_name = 'Type de finance par défaut'
         verbose_name_plural = 'Type de finance par défaut'
@@ -119,8 +103,6 @@ class DocumentLink(models.Model):
     category = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = False
-        db_table = 'Document-link'
         verbose_name = 'Lien Document'
         verbose_name_plural = 'Lien Document'
 
@@ -130,8 +112,6 @@ class DocumentLinkIndicator(models.Model):
     indicatorid = models.ForeignKey('Indicator', models.DO_NOTHING, db_column='indicatorid',verbose_name ='Indicateur')
 
     class Meta:
-        managed = False
-        db_table = 'Document-link_Indicator'
         unique_together = (('document_linkid', 'indicatorid'),)
         verbose_name = 'Document Indicateur'
         verbose_name_plural = 'Document Indicateur'
@@ -142,8 +122,6 @@ class DocumentLinkResults(models.Model):
     resultsid = models.ForeignKey('Results', models.DO_NOTHING, db_column='resultsid',verbose_name ='Resultat')
 
     class Meta:
-        managed = False
-        db_table = 'Document-link_Results'
         unique_together = (('document_linkid', 'resultsid'),)
         verbose_name = 'Document Résultat'
         verbose_name_plural = 'Document Résultat'
@@ -158,8 +136,6 @@ class PlannedDisbursement(models.Model):
     value_date = models.DateField(db_column='Value-date',blank=True, null=True,verbose_name ='Valeur Date')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
-        managed = False
-        db_table = 'Planned-disbursement'
         verbose_name = 'Décaissement Prévu'
         verbose_name_plural = 'Décaissement Prévus'
 
@@ -181,8 +157,6 @@ class Transaction(models.Model):
     disbursement_channel = models.CharField(db_column='Disbursement-channel', max_length=255, blank=True, null=True,verbose_name ='Chaîne de distribution')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
-        managed = False
-        db_table = 'Transaction'
         verbose_name = 'Transaction'
         verbose_name_plural = 'Transactions'
     def __str__(self):
@@ -209,8 +183,6 @@ class Activity(models.Model):
     type_relationship = models.CharField(db_column='Type-relationship', max_length=255, blank=True, null=True,verbose_name ='Type Relation')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
-        managed = False
-        db_table = 'activity'
         verbose_name = 'Activitée'
         verbose_name_plural = 'Activitées'
     def __str__(self):
@@ -222,8 +194,6 @@ class ActivityLocation(models.Model):
     locationid = models.ForeignKey(Location, models.DO_NOTHING, db_column='locationid',verbose_name='Localisation')
 
     class Meta:
-        managed = False
-        db_table = 'activity_location'
         unique_together = (('activityid', 'locationid'),)
         verbose_name = 'Localisation Projet'
         verbose_name_plural = 'Localisation Projet'
@@ -234,8 +204,6 @@ class ActivityOrganization(models.Model):
     organizationid = models.ForeignKey(Organization, models.DO_NOTHING, db_column='organizationid',related_name='bailleuractivite',verbose_name='Organisation')
 
     class Meta:
-        managed = False
-        db_table = 'activity_organization'
         unique_together = (('activityid', 'organizationid'),)
         verbose_name = 'Bailleur Projet'
         verbose_name_plural = 'Bailleur Projet'
@@ -246,8 +214,6 @@ class ActivitySector(models.Model):
     sectorid = models.ForeignKey(Sector, models.DO_NOTHING, db_column='sectorid',verbose_name ='Secteur')
 
     class Meta:
-        managed = False
-        db_table = 'activity_sector'
         unique_together = (('activityid', 'sectorid'),)
         verbose_name = 'Secteur Projet'
         verbose_name_plural = 'Secteur Projet'
@@ -258,8 +224,6 @@ class ActivityTag(models.Model):
     tagid = models.ForeignKey(Tag, models.DO_NOTHING, db_column='tagid',verbose_name ='Etiquette')
 
     class Meta:
-        managed = False
-        db_table = 'activity_tag'
         unique_together = (('activityid', 'tagid'),)
         verbose_name = 'Etiquette Projet'
         verbose_name_plural = 'Etiquette Projet'
@@ -270,8 +234,6 @@ class Actual(models.Model):
     periodid = models.ForeignKey('Period', models.DO_NOTHING, db_column='periodid',verbose_name='Periode')
 
     class Meta:
-        managed = False
-        db_table = 'actual'
         verbose_name='Resultat Obtenu'
     def __str__(self):
         return '%s' % (self.value)
@@ -282,8 +244,6 @@ class ActualDimension(models.Model):
     dimensionid = models.ForeignKey('Dimension', models.DO_NOTHING, db_column='dimensionid',verbose_name='Dimension')
 
     class Meta:
-        managed = False
-        db_table = 'actual_dimension'
         unique_together = (('actualid', 'dimensionid'),)
         verbose_name='Dimension Réel'
 
@@ -295,8 +255,6 @@ class Baseline(models.Model):
     date = models.DateField(db_column='Date', blank=True, null=True,verbose_name ='Date')  # Field name made lowercase.
 
     class Meta:
-        managed = False
-        db_table = 'baseline'
         verbose_name='Ligne de Base'
     def __str__(self):
         return '%s' % (self.value)
@@ -313,8 +271,6 @@ class Budget(models.Model):
     value_date = models.DateField(db_column='Value-date', blank=True, null=True,verbose_name='Valeur Date')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
-        managed = False
-        db_table = 'budget'
         verbose_name = 'Budget'
         verbose_name_plural = 'Budgets'
     def __str__(self):
@@ -326,8 +282,6 @@ class Comment(models.Model):
     text = models.CharField(max_length=255, blank=True, null=True,verbose_name='Texte')
 
     class Meta:
-        managed = False
-        db_table = 'comment'
         verbose_name ='Commentaire'
     def __str__(self):
         return '%s - %s' % (self.date, self.text)
@@ -338,8 +292,6 @@ class ConditionActivity(models.Model):
     activityid = models.ForeignKey(Activity, models.DO_NOTHING, db_column='activityid')
 
     class Meta:
-        managed = False
-        db_table = 'condition_activity'
         unique_together = (('conditionid', 'activityid'),)
         verbose_name = 'Condition'
         verbose_name_plural = 'Conditions'
@@ -349,8 +301,6 @@ class DefaultAidTypeActivity(models.Model):
     activityid = models.ForeignKey(Activity, models.DO_NOTHING, db_column='activityid',verbose_name = 'Activité')
 
     class Meta:
-        managed = False
-        db_table = 'default-aid-type_Activity'
         unique_together = (('default_aid_typeid', 'activityid'),)
         verbose_name = 'Type Aide Par Defaut'
         verbose_name_plural = 'Type Aide Par Defaut'
@@ -360,9 +310,6 @@ class Dimension(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     value = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'dimension'
     def __str__(self):
         return '%s - %s' % (self.name, self.value)
 
@@ -377,8 +324,6 @@ class Indicator(models.Model):
     code = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Code')
 
     class Meta:
-        managed = False
-        db_table = 'indicator'
         verbose_name ='Indicateur'
     def __str__(self):
         return '%s - %s' % (self.title, self.code)
@@ -390,8 +335,6 @@ class Period(models.Model):
     period_end = models.DateField(db_column='Period-end', blank=True, null=True,verbose_name ='Fin période')  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
-        managed = False
-        db_table = 'period'
         verbose_name ='Periode'
     def __str__(self):
         return 'Debut %s - Fin %s' % (self.period_start, self.period_end)
@@ -404,8 +347,6 @@ class Results(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True,verbose_name='Description')
 
     class Meta:
-        managed = False
-        db_table = 'results'
         verbose_name = 'Resultat'
         verbose_name_plural = 'Resultats'
     def __str__(self):
@@ -417,8 +358,6 @@ class Target(models.Model):
     periodid = models.ForeignKey(Period, models.DO_NOTHING, db_column='periodid',verbose_name ='Periode')
 
     class Meta:
-        managed = False
-        db_table = 'target'
         verbose_name='Jalon'
 
 
@@ -427,8 +366,6 @@ class TargetComment2(models.Model):
     commentid = models.ForeignKey(Comment, models.DO_NOTHING, db_column='commentid', verbose_name='Commentaire')
 
     class Meta:
-        managed = False
-        db_table = 'target_comment2'
         unique_together = (('targetid', 'commentid'),)
         verbose_name = 'Commentaire Jalon'
 
@@ -438,8 +375,6 @@ class TargetDimension(models.Model):
     dimensionid = models.ForeignKey(Dimension, models.DO_NOTHING, db_column='dimensionid',verbose_name='Dimension')
 
     class Meta:
-        managed = False
-        db_table = 'target_dimension'
         unique_together = (('targetid', 'dimensionid'),)
         verbose_name='Dimension Jalon'
 
@@ -450,8 +385,6 @@ class TransactionSector(models.Model):
     sectorid = models.ForeignKey(Sector, models.DO_NOTHING, db_column='sectorid',related_name='secteur',verbose_name='Secteur')
 
     class Meta:
-        managed = False
-        db_table = 'transaction_sector'
         unique_together = (('transactionid', 'sectorid'),)
         verbose_name = 'Secteur Transaction'
         verbose_name_plural = 'Secteur Transaction'

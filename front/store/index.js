@@ -1,9 +1,7 @@
 import axios from 'axios'
 
 export const state = () => ({
-    listProjets:[],
-    tmpList:[], 
-    detailsProjets: [],   
+    particularName:'',
 
     projectList : [],
     projectDetails : [],
@@ -13,9 +11,10 @@ export const state = () => ({
     projectDetailsCondition : [],
     projectDetailsCollaboration : [],
     projectDetailsIndicateur : [],
-    projectDetailsTransaction : []
-
-
+    projectDetailsTransaction : [],
+    projectDetailsContribution : [],
+    organisationList : [],
+    organisationDetails : [],
   })
 
 export const mutations = {
@@ -49,60 +48,16 @@ export const mutations = {
     setProjectDetailsIndicateur(state, payload) {
         state.projectDetailsIndicateur = payload
     },
-/**
-     * Liste des travaux
-     */
-     // setter de Liste de tous les travaux
-     listOfProjects(state,paylaod){
-        state.listProjets = paylaod
-        state.listProjets.forEach((el) => {
-            console.log(el)
-            state.tmpList.push({
-                id: e1.id,
-                lang: e1.lang,
-                default_currency: e1.default_currency,
-                humanitarian: e1.humanitarian,
-                iati_identifier:e1.iati_identifier,
-                title: e1.title,
-                description: e1.description,
-                activity_status: e1.activity_status,
-                activity_scope: e1.activity_scope     
-            })
-            
-        })
-        state.listProjets = state.tmpList
-        state.tmpList = []
+    setProjectDetailsContribution(state, payload) {
+        state.projectDetailsContribution = payload
+    },
+    setOrganisationList(state, payload) {
+        state.organisationList = payload
+    },
+    setOrganisationDetails(state, payload) {
+        state.organisationDetails = payload
     },
 
-    detailsOfProjects(state,paylaod){
-        state.detailsProjets = paylaod
-        state.detailsProjets.forEach((el) => {
-            console.log(el)
-            state.tmpList.push({
-                id: e1.id,
-                lang: e1.lang,
-                default_currency: e1.default_currency,
-                humanitarian: e1.humanitarian,
-                iati_identifier:e1.iati_identifier,
-                title: e1.title,
-                description: e1.description,
-                activity_status: e1.activity_status,
-                activity_scope: e1.activity_scope,
-                regionid3:e1.regionid3.continent,
-                region_name:e1.regionid3.name,
-                country:e1.countryid3.name
-            })
-            
-        })
-        state.detailsProjets = state.tmpList
-        state.tmpList = []
-    },
-
-    /**
-     * 
-     * Travaux End
-     * 
-     */
 }
 export const actions = {
     async fetchProjects({ commit }) {
@@ -174,6 +129,30 @@ export const actions = {
             `http://localhost:8000/api/projets/${id}/indicateur`
         ).then(res => {
             commit("setProjectDetailsIndicateur", res.data)
+        })
+    },
+
+    async fetchProjectsDetailsContribution({ commit },id) {
+        await axios.get(
+            `http://localhost:8000/api/projets/${id}/contribution`
+        ).then(res => {
+            commit("setProjectDetailsContribution", res.data)
+        })
+    },
+
+    async fetchOrganisation({ commit }) {
+        await axios.get(
+            `http://localhost:8000/api/projets/organisation`
+        ).then(res => {
+            commit("setOrganisationList", res.data)
+        })
+    },
+
+    async fetchOrganisationDetails({ commit },id) {
+        await axios.get(
+            `http://localhost:8000/api/projets/${id}/activite`
+        ).then(res => {
+            commit("setOrganisationDetails", res.data)
         })
     },
 }

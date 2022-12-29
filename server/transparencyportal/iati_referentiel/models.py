@@ -7,8 +7,6 @@ class Region(models.Model):
     discriminator = models.CharField(max_length=255)
 
     class Meta:
-        managed = True
-        db_table = 'region'
         verbose_name = 'Région'
         verbose_name_plural = 'Régions'
     def __str__(self):
@@ -21,8 +19,6 @@ class Organization(models.Model):
     discriminator = models.CharField(max_length=255)
 
     class Meta:
-        managed = True
-        db_table = 'organization'
         verbose_name = 'Organisme'
         verbose_name_plural = 'Organismes'
     def __str__(self):
@@ -42,8 +38,6 @@ class Location(models.Model):
     location_class = models.CharField(db_column='Location-class', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
-        managed = True
-        db_table = 'location'
         verbose_name = 'Localité'
         verbose_name_plural = 'Localités'
     def __str__(self):
@@ -57,8 +51,6 @@ class DefaultAidType(models.Model):
     code = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = True
-        db_table = 'default-aid-type'
         verbose_name = 'Type aide'
         verbose_name_plural = 'Type aides'
     def __str__(self):
@@ -71,8 +63,6 @@ class Country(models.Model):
     discriminator = models.CharField(max_length=255)
 
     class Meta:
-        managed = True
-        db_table = 'country'
         verbose_name = 'Pays'
         verbose_name_plural = 'Pays'
     def __str__(self):
@@ -82,8 +72,6 @@ class CollaborationType(models.Model):
     code = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = True
-        db_table = 'Collaboration-type'
         verbose_name = 'Type Collaboration'
         verbose_name_plural = 'Type Collaborations'
     def __str__(self):
@@ -93,8 +81,6 @@ class DefaultFinanceType(models.Model):
     code = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = True
-        db_table = 'Default-finance-type'
         verbose_name = 'Type Financement'
         verbose_name_plural = 'Type Financements'
     def __str__(self):
@@ -104,8 +90,6 @@ class HumanitarianScope(models.Model):
     type = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = True
-        db_table = 'Humanitarian-scope'
         verbose_name = 'Portée humanitaire'
         verbose_name_plural = 'Portée humanitaires'
     def __str__(self):
@@ -118,8 +102,6 @@ class Sector(models.Model):
     narrative = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = True
-        db_table = 'sector'
         verbose_name = 'Secteur'
         verbose_name_plural = 'Secteurs'
     def __str__(self):
@@ -130,8 +112,6 @@ class Tag(models.Model):
     narrative = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = True
-        db_table = 'Tag'
         verbose_name = 'Etiquette'
         verbose_name_plural = 'Etiquettes'
     def __str__(self):
@@ -143,8 +123,6 @@ class Condition(models.Model):
     type = models.CharField(max_length=255, blank=True, null=True,choices=CONDITION)
 
     class Meta:
-        managed = True
-        db_table = 'Condition'
         verbose_name = 'Condition'
         verbose_name_plural = 'Conditions'
     def __str__(self):
