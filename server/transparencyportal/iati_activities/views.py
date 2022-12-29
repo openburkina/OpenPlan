@@ -8,7 +8,8 @@ from iati_activities.models import Activity,ActivitySector,ActivityOrganization,
 from iati_activities.serializers import ActivitySerializer, ActivityDetailsSerializer,ActivitySectorSerializer,ActivityOrganizationSerializer,\
     ActivityParticipatingOrgSerializer,TransactionSerializer,ConditionActivitySerializer,ActivityCollaborationTypeSerializer, IndicatorSerializer, BudgetSerializer, \
         ResultsSerializer, PlannedDisbursementSerializer
-
+from django.db.models.expressions import F,value
+from django.db.models.agregates import F,value
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -80,6 +81,9 @@ class ActivityRegionViews(APIView):
 class TransactionRegionViews(APIView):
     def get(self, request, region_id):
         queryset = Transaction.objects.filter(regionid3=region_id)
+        queryset = queryset.annotate(name=F('organisationid2__narative').value('name'))
+        queryset =  queryset.annotate(value=sum('value')),currency=F('currency')
+                                    
         data = TransactionSerializer(queryset, many=True, context={'request': request}).data
         return Response(data)
 
@@ -99,4 +103,10 @@ class ActivityPlannedDistViews(APIView):
     def get(self, request, activity_id):
         queryset = PlannedDisbursement.objects.filter(activityid=activity_id)
         data = PlannedDisbursementSerializer(queryset, many=True, context={'request': request}).data
+        return Response(data)
+
+class TransaitionDecaissementRegionViews(APIView):
+    def get(self, request, region_id):
+        queryset = Transaction.objects.filter(regionid3=region_id, transaction_type="Disbursement")
+        data = TransactionSerializer(queryset, many=True, context={'request': request}).data
         return Response(data)
