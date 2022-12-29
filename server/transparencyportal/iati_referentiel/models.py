@@ -1,4 +1,5 @@
 from django.db import models
+from iati_activities.constants import ORGANISATIONTYPE,CONDITION
 
 class Region(models.Model):
     continent = models.CharField(max_length=255, blank=True, null=True)
@@ -15,7 +16,7 @@ class Region(models.Model):
 
 class Organization(models.Model):
     ref = models.CharField(max_length=255, blank=True, null=True)
-    type = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=255, blank=True, null=True,choices=ORGANISATIONTYPE)
     narrative = models.CharField(max_length=255, blank=True, null=True)
     discriminator = models.CharField(max_length=255)
 
@@ -139,7 +140,7 @@ class Tag(models.Model):
 class Condition(models.Model):
     attached = models.BooleanField()
     condition = models.CharField(db_column='Condition', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    type = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=255, blank=True, null=True,choices=CONDITION)
 
     class Meta:
         managed = True

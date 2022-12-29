@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .views import ActivityViews,ActivityDetailsViews,ActivitySectorViews,ActivityOrganisationViews,ActivityParticipatingOrgViews,TransactionViews
+from .views import ActivityViews,ActivityDetailsViews,ActivitySectorViews,ActivityOrganisationViews,\
+        ActivityParticipatingOrgViews,TransactionViews,ConditionActivityViews, ActivityCollaborationTypeViews,IndicatorViews,BudgetViews
 projet_list = ActivityViews.as_view({'get': 'list'})
 projet_detail = ActivityDetailsViews.as_view({'get': 'retrieve'})
 
@@ -11,4 +12,9 @@ urlpatterns = [
         path(r'<int:activity_id>/organisation/', ActivityOrganisationViews.as_view(), name='activity-organization'),
         path(r'<int:activity_id>/organisme/', ActivityParticipatingOrgViews.as_view(), name='activity-organisme'),
         path(r'<int:activity_id>/transaction/', TransactionViews.as_view(), name='activity-transaction'),
+        path(r'<int:activity_id>/condition/', ConditionActivityViews.as_view(), name='activity-condition'),
+        path(r'<int:activity_id>/collaboration/', ActivityCollaborationTypeViews.as_view(), name='activity-collaboration'),
+        path(r'<int:activity_id>/indicateur/', IndicatorViews.as_view(), name='activity-indicator'),
+        path(r'<int:activity_id>/budget/', BudgetViews.as_view(), name='activity-budget'),
+
 ]

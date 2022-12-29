@@ -1,5 +1,7 @@
-from iati_activities.models import Activity,ActivityCollaborationType,ActivityLocation,ActivityOrganization,ActivitySector,ContactInfo,ActivityParticipatingOrg, Transaction
-from iati_referentiel.serializers import CountrySerializer,RegionSerializer,SectorSerializer,OrganizationSerializer
+from iati_activities.models import Activity,ActivityCollaborationType,ConditionActivity,ActivityOrganization,\
+    ActivitySector,ContactInfo,ActivityParticipatingOrg, Transaction, ActivityCollaborationType, Indicator, Results, Budget
+from iati_referentiel.serializers import CountrySerializer,RegionSerializer,SectorSerializer,\
+    OrganizationSerializer,ConditionSerializer,CollaborationTypeSerializer
 from rest_framework import serializers
 
 
@@ -12,11 +14,6 @@ class ActivitySerializer(serializers.ModelSerializer):
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactInfo
-        fields = '__all__'
-
-class ActivityCollaborationTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ActivityCollaborationType
         fields = '__all__'
 
 class ActivityDetailsSerializer(serializers.ModelSerializer):
@@ -49,6 +46,11 @@ class ActivityParticipatingOrgSerializer(serializers.ModelSerializer):
         model = ActivityParticipatingOrg
         fields = '__all__'
 
+class ResultsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Results
+        fields = '__all__'
+
 class TransactionSerializer(serializers.ModelSerializer):
     regionid3 = RegionSerializer()
     countryid3 = CountrySerializer()
@@ -56,4 +58,27 @@ class TransactionSerializer(serializers.ModelSerializer):
     organizationid = OrganizationSerializer()
     class Meta:
         model = Transaction
+        fields = '__all__'
+
+class ConditionActivitySerializer(serializers.ModelSerializer):
+    conditionid = ConditionSerializer()
+    class Meta:
+        model = ConditionActivity
+        fields = '__all__'
+
+class ActivityCollaborationTypeSerializer(serializers.ModelSerializer):
+    collaboration_typeid = CollaborationTypeSerializer()
+    class Meta:
+        model = ActivityCollaborationType
+        fields = '__all__'
+
+class IndicatorSerializer(serializers.ModelSerializer):
+    resultsid = ResultsSerializer()
+    class Meta:
+        model = Indicator
+        fields = '__all__'
+
+class BudgetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Budget
         fields = '__all__'

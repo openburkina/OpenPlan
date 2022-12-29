@@ -18,17 +18,17 @@
         </v-tab>
 
         <v-tab href="#tab-3">
-          Organismes
+          Condition
           <v-icon>mdi-chart-timeline</v-icon>
         </v-tab>
 
         <v-tab href="#tab-4">
-          Budget
+          Type Collaboration
           <v-icon>mdi-chart-timeline</v-icon>
         </v-tab>
 
         <v-tab href="#tab-5">
-          Condition
+          Organismes
           <v-icon>mdi-chart-timeline</v-icon>
         </v-tab>
 
@@ -38,17 +38,7 @@
         </v-tab>
 
         <v-tab href="#tab-7">
-          Résultat
-          <v-icon>mdi-chart-timeline</v-icon>
-        </v-tab>
-
-        <v-tab href="#tab-8">
-          Type Finance
-          <v-icon>mdi-chart-timeline</v-icon>
-        </v-tab>
-
-        <v-tab href="#tab-9">
-          Type Aide
+           Indicateurs Résultat
           <v-icon>mdi-chart-timeline</v-icon>
         </v-tab>
       </v-tabs>
@@ -61,7 +51,19 @@
           <ProjectSector  :search="search"  :items="items"/>
         </v-tab-item>
         <v-tab-item value="tab-3">
+          <ProjectCondition  :search="search"  :items="conditions"/>
+        </v-tab-item>
+        <v-tab-item value="tab-4">
+          <ProjectCollaboration  :search="search"  :items="collaborations"/>
+        </v-tab-item>
+        <v-tab-item value="tab-5">
           <ProjectOrganisme  :search="search"  :items="organismes"/>
+        </v-tab-item>
+        <v-tab-item value="tab-6">
+          <ProjectTransaction  :search="search"  :items="transactions"/>
+        </v-tab-item>
+        <v-tab-item value="tab-7">
+          <ProjectIndicateur  :search="search"  :items="indicateurs"/>
         </v-tab-item>
       </v-tabs-items>
   </div>
@@ -75,8 +77,10 @@
         info: 'projectDetails',
         items: 'projectDetailsSector',
         organismes:'projectDetailsOrganisme',
-      //  dates: 'projectStages',
-      //  transactions: 'projectTransactions'
+        conditions :'projectDetailsCondition',
+        collaborations :'projectDetailsCollaboration',
+        indicateurs :'projectDetailsIndicateur',
+        transactions: 'projectDetailsTransaction'
       })
     },
 
@@ -84,7 +88,10 @@
       this.fetchProjectsDetails(this.id);
       this.fetchProjectsDetailsSector(this.id);
       this.fetchProjectsDetailsOrganisme(this.id);
-    //  this.fetchProjectTransactions(this.id);
+      this.fetchProjectsDetailsTransaction(this.id);
+      this.fetchProjectsDetailsCondition(this.id);
+      this.fetchProjectsDetailsCollaboration(this.id);
+      this.fetchProjectsDetailsIndicateur(this.id);
     },
 
     data() {
@@ -100,8 +107,11 @@
         'fetchProjectsDetails',
         'fetchProjectsDetailsSector',
         'fetchProjectsDetailsOrganisme',
-       // 'fetchProjectTransactions'
-      ]),
+        'fetchProjectsDetailsTransaction',
+        'fetchProjectsDetailsCondition',
+        'fetchProjectsDetailsCollaboration',
+        'fetchProjectsDetailsIndicateur',
+  ]),
       getTitle(message) {
         return `${message} sur le projet : ${this.id}`
       },

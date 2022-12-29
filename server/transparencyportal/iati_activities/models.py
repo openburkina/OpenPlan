@@ -2,7 +2,7 @@ from django.db import models
 from iati_referentiel.models import CollaborationType, Country , DefaultAidType, \
     DefaultFinanceType, HumanitarianScope, Location, Organization, Region, Sector, Tag, Condition
 
-from .constants import STATUS,ROLE,TYPE
+from .constants import STATUS,ROLE,TYPE,TRANSACTION
 
 class ActivityParticipatingOrg(models.Model):
     role = models.CharField(max_length=255, blank=True, null=True,choices=ROLE,verbose_name ='Rôle')
@@ -172,7 +172,7 @@ class Transaction(models.Model):
     activityid = models.ForeignKey('Activity', models.DO_NOTHING, db_column='activityid')
     ref = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Réference')
     humanitarian = models.BooleanField(verbose_name ='Humanitaire')
-    transaction_type = models.CharField(db_column='Transaction-type', max_length=255, blank=True, null=True,verbose_name ='Type Transaction')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    transaction_type = models.CharField(db_column='Transaction-type', max_length=255, blank=True, null=True,choices=TRANSACTION,verbose_name ='Type Transaction')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     transaction_date = models.DateField(db_column='Transaction-date',verbose_name ='Date Transaction')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     value = models.FloatField(verbose_name ='Montant')
     currency = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Dévise')
