@@ -48,31 +48,29 @@ export default {
          
           },
         { text: 'id', value: 'id' },
-        { text: 'Nom', value: 'name' },
-        { text: 'Email', value: 'email' },
-        { text: 'Pays', value: 'country_name' },
-        { text: 'Région', value: 'region' },
-        { text: 'telephone', value: 'telephone' },
-        { text: 'Nom du Contact', value: 'contact_name' },
+        { text: 'ref', value: 'ref' },
+        { text: 'type', value: 'type' },
+        { text: 'narrative', value: 'narrative' },
+        { text: 'discriminator', value: 'discriminator' },
        
       ],
     }
   },
 
   mounted(){
-     this.$store.dispatch('fetchBuyers')
+     this.$store.dispatch('fetchOrganisation')
   },
  
   computed:{
     buyers(){
-      return this.$store.state.list
+      return this.$store.state.organisationList
     },
     done(){
-      return this.$store.state.recordsDone.length
+      return this.$store.state.organisationDetails.length
     },
-    pregress(){
+   /* pregress(){
       return this.$store.state.recordsInprogress.length
-    }
+    } */
   },
   methods: {
     getColor(statut) {
@@ -84,7 +82,7 @@ export default {
       else return 'mdi-check'
     },
     createEditLink(buyer) {
-      this.$store.state.particularName = `Travaux de : ${buyer.name }`
+      this.$store.state.particularName = `Travaux de : ${buyer.narrative }`
       return this.$router.push({ path: '/buyers/' + buyer.id})
     },
   },

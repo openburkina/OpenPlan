@@ -1,5 +1,5 @@
 STATUS = [
-    ('Pipeline/identification', 'Pipeline/identification'),
+    ('Identification', 'Identification'),
     ('Implementation', 'Implementation'),
     ('Finalisation', 'Finalisation'),
     ('Closed', 'Closed'),

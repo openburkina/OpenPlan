@@ -41,6 +41,11 @@
            Indicateurs Résultat
           <v-icon>mdi-chart-timeline</v-icon>
         </v-tab>
+
+        <v-tab href="#tab-8">
+           Liste Bailleur Et Contribution
+          <v-icon>mdi-chart-timeline</v-icon>
+        </v-tab>
       </v-tabs>
 
       <v-tabs-items v-model="tab" class="mb-9">
@@ -65,6 +70,9 @@
         <v-tab-item value="tab-7">
           <ProjectIndicateur  :search="search"  :items="indicateurs"/>
         </v-tab-item>
+        <v-tab-item value="tab-8">
+          <ProjectContribution  :search="search"  :items="contributions"/>
+        </v-tab-item>
       </v-tabs-items>
   </div>
 </template>
@@ -80,7 +88,8 @@
         conditions :'projectDetailsCondition',
         collaborations :'projectDetailsCollaboration',
         indicateurs :'projectDetailsIndicateur',
-        transactions: 'projectDetailsTransaction'
+        transactions: 'projectDetailsTransaction',
+        contributions: 'projectDetailsContribution',
       })
     },
 
@@ -92,6 +101,7 @@
       this.fetchProjectsDetailsCondition(this.id);
       this.fetchProjectsDetailsCollaboration(this.id);
       this.fetchProjectsDetailsIndicateur(this.id);
+      this.fetchProjectsDetailsContribution(this.id);
     },
 
     data() {
@@ -111,6 +121,7 @@
         'fetchProjectsDetailsCondition',
         'fetchProjectsDetailsCollaboration',
         'fetchProjectsDetailsIndicateur',
+        'fetchProjectsDetailsContribution',
   ]),
       getTitle(message) {
         return `${message} sur le projet : ${this.id}`

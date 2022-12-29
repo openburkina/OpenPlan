@@ -1,7 +1,9 @@
 <template>
   <Travaux 
   :done=done 
-  :inprogress=inprogress 
+  />
+</template>
+<!-- :inprogress=inprogress 
   :pieStats=pieStats
   :barOneStats=barOneStats
   :barTwoStats=barTwoStats
@@ -10,10 +12,7 @@
   v-on:pie-year-change="fetchPieStats($event)"
   v-on:line-years-change="fetchLineStats($event)"
   v-on:barone-year-change="fetchBarOneStats($event)"
-  v-on:bartwo-year-change="fetchBarTwoStats($event)"
-  />
-</template>
-
+  v-on:bartwo-year-change="fetchBarTwoStats($event)" -->
 <script>
 export default {
   data(){
@@ -23,9 +22,9 @@ export default {
   },
   computed:{
     done(){
-      return this.$store.state.listOfRecords
+      return this.$store.state.organisationDetails
     },
-    inprogress(){
+    /* inprogress(){
       return this.$store.state.recordsInprogress
     },
     pieStats() {
@@ -39,18 +38,18 @@ export default {
     },
     lineStats() {
       return this.$store.state.buyerLineStats
-    }
+    } */
   },
   mounted(){
-    this.$store.dispatch('records',this.id)
-    this.$store.dispatch('statasOfBuyer',this.id)
-    this.fetchPieStats(new Date().getFullYear())
+    this.$store.dispatch('fetchOrganisationDetails',this.id)
+   // this.$store.dispatch('statasOfBuyer',this.id)
+   /*  this.fetchPieStats(new Date().getFullYear())
     this.fetchBarOneStats(new Date().getFullYear())
     this.fetchBarTwoStats(new Date().getFullYear())
-    this.fetchLineStats([new Date().getFullYear(), new Date().getFullYear()])
+    this.fetchLineStats([new Date().getFullYear(), new Date().getFullYear()]) */
   },
   methods: {
-    fetchPieStats(year) {
+   /*  fetchPieStats(year) {
       this.$store.dispatch('fetchBuyerPieStats', { buyer_id: this.id, year })
     },
     fetchBarOneStats(year) {
@@ -61,7 +60,7 @@ export default {
     },
     fetchLineStats([startYear, endYear]) {
       this.$store.dispatch('fetchBuyerLineStats', { buyer_id: this.id, start_year: startYear, end_year: endYear })
-    },
+    }, */
   },
 }
 </script>
