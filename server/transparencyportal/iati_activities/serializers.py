@@ -1,4 +1,4 @@
-from iati_activities.models import Activity,ActivityCollaborationType,ActivityLocation,ActivityOrganization,ActivitySector,ContactInfo,ActivityParticipatingOrg, Transaction
+from iati_activities.models import Activity,ActivityCollaborationType,ActivityLocation,ActivityOrganization,ActivitySector,ContactInfo,ActivityParticipatingOrg, Transaction, PlannedDisbursement, Results
 from iati_referentiel.serializers import CountrySerializer,RegionSerializer,SectorSerializer,OrganizationSerializer
 from rest_framework import serializers
 
@@ -56,4 +56,16 @@ class TransactionSerializer(serializers.ModelSerializer):
     organizationid = OrganizationSerializer()
     class Meta:
         model = Transaction
+        fields = '__all__'
+
+class PlannedDisbursementSerializer(serializers.ModelSerializer):
+    activityid = ActivitySerializer()
+    class Meta:
+        model = PlannedDisbursement
+        fields = '__all__'
+
+class ResultsSerializer(serializers.ModelSerializer):
+    activityid = ActivitySerializer()
+    class Meta:
+        model = Results
         fields = '__all__'

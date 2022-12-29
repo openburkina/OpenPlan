@@ -1,4 +1,5 @@
 from django.db import models
+from iati_activities.constants import ROLE
 
 class Region(models.Model):
     continent = models.CharField(max_length=255, blank=True, null=True)
@@ -15,7 +16,7 @@ class Region(models.Model):
 
 class Organization(models.Model):
     ref = models.CharField(max_length=255, blank=True, null=True)
-    type = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=255, blank=True, null=True, choices=ROLE)
     narrative = models.CharField(max_length=255, blank=True, null=True)
     discriminator = models.CharField(max_length=255)
 
