@@ -5,6 +5,7 @@ from .views import ActivityViews,ActivityDetailsViews,ActivitySectorViews,\
                 TransactionRegionViews,ActivityRegionViews, ActivityPlannedDistViews, ActivityResultatViews,ActivityOrganisationTransactionViews,\
                         OrganisationViews,OrganisationActivityViews,OrganisationActivityStatusViews,OrganisationActivityRegionViews
 
+from .views import ActivityViews,ActivityDetailsViews,ActivitySectorViews,ActivityOrganisationViews,ActivityParticipatingOrgViews,TransactionViews,TransactionRegionViews,ActivityRegionViews, ActivityPlannedDistViews, ActivityResultatViews
 projet_list = ActivityViews.as_view({'get': 'list'})
 projet_detail = ActivityDetailsViews.as_view({'get': 'retrieve'})
 organisation_list = OrganisationViews.as_view({'get': 'list'})
@@ -28,7 +29,5 @@ urlpatterns = [
         path(r'<int:organisation_id>/activite/', OrganisationActivityViews.as_view(), name='organisation-activite'),
         path(r'<int:organisation_id>/activite/by_status', OrganisationActivityStatusViews.as_view(), name='oraganisation-activite-bystatus-list'),
         path(r'<int:organisation_id>/activite/by_region', OrganisationActivityRegionViews.as_view(), name='oraganisation-activite-region-sum'),
-
-
 
 ]

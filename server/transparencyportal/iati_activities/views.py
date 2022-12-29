@@ -88,6 +88,12 @@ class TransactionRegionViews(APIView):
         data = TransactionSerializer(queryset, many=True, context={'request': request}).data
         return Response(data)
 
+class TransactionBailleurViews(APIView):
+    def get(self, request, organization_id):
+        queryset = Transaction.objects.filter(organizationid2=organization_id)
+        data = TransactionSerializer(queryset, many=True, context={'request': request}).data
+        return Response(data)
+
 class ActivityResultatViews(APIView):
     def get(self, request, activity_id):
         queryset = Results.objects.filter(activityid=activity_id)
