@@ -1,12 +1,12 @@
 export function pieStatAdapter(input_data) {
-    let labels = ["Planification", "Lancement", "Attribution", "Contractualisation", "Implémentation", "Terminé"]
+    let labels = ["Identification", "Implementation", "Finalisation", "Closed", "Cancelled", "Suspended"]
     let data = [
-        input_data['planning'],
-        input_data['tender'],
-        input_data['award'],
-        input_data['contract'],
-        input_data['implementation'],
-        input_data['done'],
+        input_data['Identification'],
+        input_data['Implementation'],
+        input_data['Finalisation'],
+        input_data['Closed'],
+        input_data['Cancelled'],
+        input_data['Suspended'],
     ]
     return {labels: labels, data: data} 
 }
@@ -18,8 +18,8 @@ export function lineStatAdapter(input_data, start_year, end_year) {
         labels.push(i + parseInt(start_year))
     }
     let a = input_data.reduce(function (r, a) {
-        r[a.sector] = r[a.sector] || {};
-        r[a.sector][a.year] = a.value;
+        r[a.name] = r[a.name] || {};
+        r[a.name][a.planned_start] = a.value;
         return r;
     }, Object.create(null));
     for (let [k, v] of Object.entries(a)) {

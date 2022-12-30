@@ -44,7 +44,7 @@
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Bailleurs</v-list-item-title>
+            <v-list-item-title>Organismes</v-list-item-title>
           </v-list-item>
 
           <v-list-item to="/regions">
@@ -87,7 +87,7 @@
           <span class="mr-2 white--text">Projets</span>
         </v-btn>
         <v-btn text to="/buyers">
-          <span class="mr-2  white--text">Bailleurs</span>
+          <span class="mr-2  white--text">Organismes</span>
         </v-btn>
         <!-- More menu -->
         <v-btn text to="/regions">

@@ -207,6 +207,8 @@ class ActivityOrganization(models.Model):
         unique_together = (('activityid', 'organizationid'),)
         verbose_name = 'Bailleur Projet'
         verbose_name_plural = 'Bailleur Projet'
+    def __str__(self):
+        return '%s - %s -%s' % (self.activityid, self.organizationid,self.activityid.regionid3.name)
 
 
 class ActivitySector(models.Model):

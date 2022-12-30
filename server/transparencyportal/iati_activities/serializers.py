@@ -117,5 +117,27 @@ class OrganisationActivityByStatusSerializer(serializers.Serializer):
 
 class OrganisationActivityByRegionSerializer(serializers.Serializer):
     name = serializers.CharField()
-    regionid3 = serializers.ReadOnlyField()
-    total = serializers.ReadOnlyField()
+    value = serializers.IntegerField()
+
+class OrganisationActivityBySectorSerializer(serializers.Serializer):
+    planned_start = serializers.IntegerField(source='activityid__activitydate__planned_start__year')
+    name = serializers.CharField()
+    value = serializers.IntegerField()
+
+class OrganisationActivityByRegionTransactionSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    value = serializers.IntegerField()
+
+class TransactionEcartSerializer(serializers.Serializer):
+    valuedisbursement = serializers.FloatField()
+    valueprevue = serializers.FloatField()
+    difference = serializers.FloatField()
+
+class HomeActivityByStatusSerializer(serializers.Serializer):
+    Identification = serializers.IntegerField()
+    Implementation = serializers.IntegerField()
+    Finalisation = serializers.IntegerField()
+    Closed = serializers.IntegerField()
+    Cancelled = serializers.IntegerField()
+    Suspended = serializers.IntegerField()
+    total = serializers.IntegerField()

@@ -21,12 +21,9 @@
     <apexchart
         type="donut"
         :options="pieOptions"
-        [noData]="noData"
         :series="pieChartData"
         :height="300"
-        >
-    
-        
+        >   
     </apexchart> 
     </v-card>
 </template>
@@ -41,18 +38,6 @@ export default {
     data() {
         return {
             year : new Date().getFullYear(),
-            noData: {
-                text: undefined,
-                align: 'center',
-                verticalAlign: 'middle',
-                offsetX: 0,
-                offsetY: 0,
-                style: {
-                    color: undefined,
-                    fontSize: '14px',
-                    fontFamily: undefined
-                }
-        }
         }
           
     }

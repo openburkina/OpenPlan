@@ -32,7 +32,7 @@
         <apexchart
             type="line"
             :options="chartOptionsLine"
-            :noData="noData"
+            
             :series="lineSeries"
             :height="300">
         </apexchart>
@@ -45,11 +45,6 @@ export default {
     data() {
         return {
             years : [new Date().getFullYear(), new Date().getFullYear()],
-            noData: {
-            text: "No data text",
-            align: "center",
-            verticalAlign: "middle",
-            },
             rules : {
                 isLess : (value) => {
                     if (value <= this.years[1]) return true;

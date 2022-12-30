@@ -1,9 +1,6 @@
 <template>
   <Travaux 
-  :done=done 
-  />
-</template>
-<!-- :inprogress=inprogress 
+  :done=done
   :pieStats=pieStats
   :barOneStats=barOneStats
   :barTwoStats=barTwoStats
@@ -12,7 +9,9 @@
   v-on:pie-year-change="fetchPieStats($event)"
   v-on:line-years-change="fetchLineStats($event)"
   v-on:barone-year-change="fetchBarOneStats($event)"
-  v-on:bartwo-year-change="fetchBarTwoStats($event)" -->
+  v-on:bartwo-year-change="fetchBarTwoStats($event)"
+  />
+</template>
 <script>
 export default {
   data(){
@@ -24,43 +23,39 @@ export default {
     done(){
       return this.$store.state.organisationDetails
     },
-    /* inprogress(){
-      return this.$store.state.recordsInprogress
-    },
     pieStats() {
-      return this.$store.state.buyerPieStats
+      return this.$store.state.organismePieStats
     },
     barOneStats() {
-      return this.$store.state.buyerBarOneStats
+      return this.$store.state.organismeBarOneStats
     },
     barTwoStats() {
-      return this.$store.state.buyerBarTwoStats
+      return this.$store.state.organismeBarTwoStats
     },
     lineStats() {
-      return this.$store.state.buyerLineStats
-    } */
+      return this.$store.state.organismeLineStats
+    }
   },
   mounted(){
     this.$store.dispatch('fetchOrganisationDetails',this.id)
-   // this.$store.dispatch('statasOfBuyer',this.id)
-   /*  this.fetchPieStats(new Date().getFullYear())
+    this.fetchPieStats(new Date().getFullYear())
     this.fetchBarOneStats(new Date().getFullYear())
     this.fetchBarTwoStats(new Date().getFullYear())
-    this.fetchLineStats([new Date().getFullYear(), new Date().getFullYear()]) */
+    this.fetchLineStats([new Date().getFullYear(), new Date().getFullYear()])
   },
   methods: {
-   /*  fetchPieStats(year) {
-      this.$store.dispatch('fetchBuyerPieStats', { buyer_id: this.id, year })
+    fetchPieStats(year) {
+      this.$store.dispatch('fetchOrganismePieStats', { buyer_id: this.id, year })
     },
     fetchBarOneStats(year) {
-      this.$store.dispatch('fetchBuyerBarOneStats', { buyer_id: this.id, year })
+      this.$store.dispatch('fetchOrganismeBarOneStats', { buyer_id: this.id, year })
     },
     fetchBarTwoStats(year) {
-      this.$store.dispatch('fetchBuyerBarTwoStats', { buyer_id: this.id, year })
+      this.$store.dispatch('fetchOrganismeBarTwoStats', { buyer_id: this.id, year })
     },
     fetchLineStats([startYear, endYear]) {
-      this.$store.dispatch('fetchBuyerLineStats', { buyer_id: this.id, start_year: startYear, end_year: endYear })
-    }, */
+      this.$store.dispatch('fetchOrganismeLineStats', { buyer_id: this.id, start_year: startYear, end_year: endYear })
+    },
   },
 }
 </script>

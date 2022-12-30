@@ -25,14 +25,14 @@
       <v-tab-item class="mx-5 mt-16 mb-16 elevation-4">
         <TravauxContentDone :title=this.$store.state.particularName :done=done />
       </v-tab-item>
-      <!-- <v-tab-item class="mx-5">
+      <v-tab-item class="mx-5">
         <ChartList 
           :pieTitle="pieTitle" :pieChartLabels="pieStats.labels" :pieChartData="pieStats.data" v-on:pie-year-change="$emit('pie-year-change', $event)"
           :lineTitle="lineTitle" :lineChartLabels="lineStats.labels" :lineChartData="lineStats.data" v-on:line-years-change="$emit('line-years-change', $event)"
           :barOneTitle="barOneTitle" :barChartOneLabels="barOneStats.labels" :barChartOneData="barOneStats.data" v-on:barone-year-change="$emit('barone-year-change', $event)"
           :barTwoTitle="barTwoTitle" :barChartTwoLabels="barTwoStats.labels" :barChartTwoData="barTwoStats.data" v-on:bartwo-year-change="$emit('bartwo-year-change', $event)"
         />
-      </v-tab-item> -->
+      </v-tab-item>
     </v-tabs-items>
   </div>
 </template>
@@ -44,18 +44,18 @@ export default {
       type: []
     },
 
-   /*  pieStats: {'labels': [], 'data': []},
+    pieStats: {'labels': [], 'data': []},
     barOneStats: {'labels': [], 'data': []},
     barTwoStats: {'labels': [], 'data': []},
-    lineStats: {'labels': [], 'data': []}, */
+    lineStats: {'labels': [], 'data': []},
   },
   data () {
     return {
       tab: null,
-      /* pieTitle: "Statut annuel des travaux",
+      pieTitle: "Statut annuel des travaux",
       lineTitle: "Evolution des montants par secteur",
       barOneTitle: "Montant annuel des travaux par région",
-      barTwoTitle: "Montant annuel des travaux par secteur", */
+      barTwoTitle: "Totaux des Projets par région",
     }
   },
   computed: {

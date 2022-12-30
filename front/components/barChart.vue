@@ -21,7 +21,6 @@
         type="bar"
         :options="chartOptionsBar"
         :series="seriesBar"
-        :noData="noData"
         :height="300">
     </apexchart>
     </v-card>
@@ -33,11 +32,6 @@ export default {
     data() {
         return {
             year : new Date().getFullYear(),
-            noData: {
-            text: "No data text",
-            align: "center",
-            verticalAlign: "middle",
-            }
             
         }
     }

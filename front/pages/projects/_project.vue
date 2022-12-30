@@ -46,6 +46,21 @@
            Liste Bailleur Et Contribution
           <v-icon>mdi-chart-timeline</v-icon>
         </v-tab>
+
+        <v-tab href="#tab-9">
+           Activités
+          <v-icon>mdi-chart-timeline</v-icon>
+        </v-tab>
+
+        <v-tab href="#tab-10">
+           Décaissements
+          <v-icon>mdi-chart-timeline</v-icon>
+        </v-tab>
+
+        <v-tab href="#tab-11">
+           Ecarts Décaissement
+          <v-icon>mdi-chart-timeline</v-icon>
+        </v-tab>
       </v-tabs>
 
       <v-tabs-items v-model="tab" class="mb-9">
@@ -73,6 +88,15 @@
         <v-tab-item value="tab-8">
           <ProjectContribution  :search="search"  :items="contributions"/>
         </v-tab-item>
+        <v-tab-item value="tab-9">
+          <ProjectChild  :search="search"  :items="childs"/>
+        </v-tab-item>
+        <v-tab-item value="tab-10">
+          <ProjectDecaissement  :search="search"  :items="decaissements"/>
+        </v-tab-item>
+        <v-tab-item value="tab-11">
+          <ProjectDecaissementEcart  :search="search"  :items="decaissementecarts"/>
+        </v-tab-item>
       </v-tabs-items>
   </div>
 </template>
@@ -90,6 +114,9 @@
         indicateurs :'projectDetailsIndicateur',
         transactions: 'projectDetailsTransaction',
         contributions: 'projectDetailsContribution',
+        childs: 'projectDetailsChild',
+        decaissements: 'projectDetailsDecaissement',
+        decaissementecarts: 'projectDetailsDecaissementEcart',
       })
     },
 
@@ -102,6 +129,9 @@
       this.fetchProjectsDetailsCollaboration(this.id);
       this.fetchProjectsDetailsIndicateur(this.id);
       this.fetchProjectsDetailsContribution(this.id);
+      this.fetchProjectsDetailsChild(this.id);
+      this.fetchProjectsDetailsDecaissement(this.id);
+      this.fetchProjectsDetailsDecaissementEcart(this.id);
     },
 
     data() {
@@ -122,6 +152,9 @@
         'fetchProjectsDetailsCollaboration',
         'fetchProjectsDetailsIndicateur',
         'fetchProjectsDetailsContribution',
+        'fetchProjectsDetailsChild',
+        'fetchProjectsDetailsDecaissement',
+        'fetchProjectsDetailsDecaissementEcart',
   ]),
       getTitle(message) {
         return `${message} sur le projet : ${this.id}`

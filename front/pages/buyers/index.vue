@@ -82,7 +82,8 @@ export default {
       else return 'mdi-check'
     },
     createEditLink(buyer) {
-      this.$store.state.particularName = `Travaux de : ${buyer.narrative }`
+      console.log(buyer)
+      this.$store.state.particularName = `Projet de : ${buyer.narrative }`
       return this.$router.push({ path: '/buyers/' + buyer.id})
     },
   },

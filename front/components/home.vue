@@ -24,8 +24,8 @@
         widthChart: 370,
         pieTitle: "Statut annuel des projets",
         lineTitle: "Evolution des montants par secteur",
-        barOneTitle: "Montant annuel des projets par région",
-        barTwoTitle: "Montant annuel des projets par secteur",
+        barOneTitle: "Transaction annuel des projets par région",
+        barTwoTitle: "Transaction annuel des projets par secteur",
         colorIntervals: [
                 {
                     "key": 0,

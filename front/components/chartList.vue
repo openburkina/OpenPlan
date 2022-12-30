@@ -57,11 +57,6 @@ export default {
                 options : {
                     labels: this.pieChartLabels
                 },
-                noData: {
-                        text: "No data text",
-                        align: "center",
-                        verticalAlign: "middle",
-                    },
                 series : this.pieChartData
                 
             }

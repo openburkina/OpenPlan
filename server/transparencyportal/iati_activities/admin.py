@@ -147,7 +147,7 @@ class ActivityAdmin(admin.ModelAdmin):
     list_per_page=10
     inlines = [
         ActivityLocationline, ActivitySectorline, ActivityOrganizationline, Budgetline, ActivityTagline, ActivityParticipatingOrgline, ActivityDateline,\
-             Transactionline, Resultsline, ActivityCollaborationTypeline, ActivityHumanitarianScopeline, ConditionActivityline, DefaultFinanceTypeActivityline, \
+             Resultsline, ActivityCollaborationTypeline, ActivityHumanitarianScopeline, ConditionActivityline, DefaultFinanceTypeActivityline, \
                 DefaultAidTypeActivityline, DocumentLinkline, PlannedDisbursementline
     ]
 
@@ -181,99 +181,12 @@ class ActualAdmin(admin.ModelAdmin):
         ActualDimensionline, ActualDocumentLinkline
     ]
 
-""" class ActualAdmin(admin.ModelAdmin):
-    pass
-
-class ActualDocumentLinkAdmin(admin.ModelAdmin):
-    pass
-
-class Baselineline(admin.ModelAdmin):
-    pass
-
-class BaselineDocumentLinkAdmin(admin.ModelAdmin):
-    pass
-
-class Commentline(admin.ModelAdmin):
-    pass
-
-class ActualDimensionAdmin(admin.ModelAdmin):
-    pass
-
-class Dimensionline(admin.ModelAdmin):
-    pass
-
-class DocumentLinkline(admin.ModelAdmin):
-    pass
-
-class DocumentLinkIndicatorline(admin.ModelAdmin):
-    pass
-
-class DocumentLinkResultsline(admin.ModelAdmin):
-    pass
-
-class Indicatorline(admin.ModelAdmin):
-    pass
-
-class Periodline(admin.ModelAdmin):
-    pass
-
-class Targetline(admin.ModelAdmin):
-    pass
-
-class PlannedDisbursementline(admin.ModelAdmin):
-    pass
-
-class TargetComment2line(admin.ModelAdmin):
-    pass
-
-class TargetDimension3line(admin.ModelAdmin):
-    pass
-
-class DefaultAidTypeActivityline(admin.ModelAdmin):
-    pass
-
-class DefaultFinanceTypeActivityline(admin.ModelAdmin):
-    pass
-
-class ActivityCollaborationTypeline(admin.ModelAdmin):
-    pass
-
-class ActivityHumanitarianScopeline(admin.ModelAdmin):
-    pass
-
-class ActivityParticipatingOrgline(admin.ModelAdmin):
-    pass
-
-class ActivitySectorline(admin.ModelAdmin):
-    pass
-
-class ActivityDateline(admin.ModelAdmin):
-    pass
-
-class ActivityLocationline(admin.ModelAdmin):
-    pass
-
-class Resultsline(admin.ModelAdmin):
-    pass
-
-class ActivityOrganizationline(admin.ModelAdmin):
-    pass
-
-class ActivityTagline(admin.ModelAdmin):
-    pass
-
-class Budgetline(admin.ModelAdmin):
-    pass
-
-class ConditionActivityline(admin.ModelAdmin):
-    pass
-
-class TransactionSectorline(admin.ModelAdmin):
-    pass
-
-class Transactionline(admin.ModelAdmin):
-    pass
-
-class Contactline(admin.ModelAdmin):
-    pass
- """
+@admin.register(Transaction)
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ('activityid','organizationid2','organizationid','ref','transaction_type','transaction_date','value','currency')
+    search_fields = ('activityid','organizationid2','organizationid','ref','transaction_type','transaction_date','value','currency')
+    list_filter = ('activityid','organizationid2','organizationid','ref','transaction_type','transaction_date','value','currency')
+    list_per_page=10
+    inlines = [
+        TransactionSectorline
+    ]
