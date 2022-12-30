@@ -15,8 +15,8 @@ from iati_activities.serializers import ActivitySerializer, ActivityDetailsSeria
 
 from iati_referentiel.serializers import OrganizationSerializer
 
-from iati_referentiel.models import Organization
-
+from iati_referentiel.models import Organization,\
+        ResultsSerializer, PlannedDisbursementSerializer
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -86,6 +86,8 @@ class ActivityRegionViews(APIView):
 class TransactionRegionViews(APIView):
     def get(self, request, region_id):
         queryset = Transaction.objects.filter(regionid3=region_id)
+        queryset = queryset.annotate(name=F('organisationid2__narative').value('name'))
+        queryset =  queryset.annotate(value=sum('value'), currency=F('currency'))                
         data = TransactionSerializer(queryset, many=True, context={'request': request}).data
         return Response(data)
 
@@ -211,9 +213,6 @@ class OrganisationActivityRegionTransactionViews(APIView):
         return Response(data)
 
 
-
-
-
 #By Home And Status
 class HomeActivityStatusViews(APIView):
     def get(self, request):
@@ -272,5 +271,4 @@ class HomeTransactionSectorTransactionViews(APIView):
         queryset = queryset.annotate(value=Sum('transactionid__value'))
         data = OrganisationActivityByRegionTransactionSerializer(queryset, many=True).data
         return Response(data)
-
 
