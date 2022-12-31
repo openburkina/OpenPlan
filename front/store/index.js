@@ -2,6 +2,7 @@ import axios from 'axios'
 import { pieStatAdapter, lineStatAdapter, barStatAdapter } from '~/helpers/Adapters'
 export const state = () => ({
     particularName:'',
+    regionName:'',
 //API BAILLEUR,REGION,PROJET
     projectList : [],
     projectDetails : [],
@@ -18,6 +19,12 @@ export const state = () => ({
     projectDetailsDecaissementEcart : [],
     organisationList : [],
     organisationDetails : [],
+    organisationTransactionE : [],
+    organisationTransactionR : [],
+    regionList : [],
+    regionProject : [],
+    regionTransaction : [],
+    regionDecaissement : [],
 //END
 //STATISTIQUE GRAPHIQUE
     organismePieStats: {'labels': [], 'data': []},
@@ -28,6 +35,10 @@ export const state = () => ({
     homeBarOneStats: {'labels': [], 'data': []},
     homeBarTwoStats: {'labels': [], 'data': []},
     homeLineStats: {'labels': [], 'data': []},
+    regionPieStats: {'labels': [], 'data': []},
+    regionBarOneStats: {'labels': [], 'data': []},
+    regionBarTwoStats: {'labels': [], 'data': []},
+    regionLineStats: {'labels': [], 'data': []},
     
 //END
   })
@@ -82,6 +93,24 @@ export const mutations = {
     setOrganisationDetails(state, payload) {
         state.organisationDetails = payload
     },
+    setOrganisationTransactionR(state, payload) {
+        state.organisationTransactionR = payload
+    },
+    setOrganisationTransactionE(state, payload) {
+        state.organisationTransactionE = payload
+    },
+    setRegionList(state, payload) {
+        state.regionList = payload
+    },
+    setRegionProject(state, payload) {
+        state.regionProject = payload
+    },
+    setRegionTransaction(state, payload) {
+        state.regionTransaction = payload
+    },
+    setRegionDecaissement(state, payload) {
+        state.regionDecaissement = payload
+    },
 //End Stats Tableau
 
 //Start Stat Graphique Setters
@@ -110,10 +139,23 @@ export const mutations = {
     setHomeLineStats(state, payload) {
         state.homeLineStats = payload.data
     },
+    setRegionPieStats(state, payload) {
+        state.regionPieStats = payload.data
+    },
+    setRegionBarOneStats(state, payload) {
+        state.regionBarOneStats = payload.data
+    },
+    setRegionBarTwoStats(state, payload) {
+        state.regionBarTwoStats = payload.data
+    },
+    setRegionLineStats(state, payload) {
+        state.regionLineStats = payload.data
+    },
 //End
 
 }
 export const actions = {
+    //Projets
     async fetchProjects({ commit }) {
         await axios.get(
             `http://localhost:8000/api/projets`
@@ -218,7 +260,8 @@ export const actions = {
             commit("setProjectDetailsDecaissementEcart", res.data)
         })
     },
-
+    //End
+    //Organisme
     async fetchOrganisation({ commit }) {
         await axios.get(
             `http://localhost:8000/api/projets/organisation`
@@ -229,73 +272,93 @@ export const actions = {
 
     async fetchOrganisationDetails({ commit },id) {
         await axios.get(
-            `http://localhost:8000/api/projets/${id}/activite`
+            `http://localhost:8000/api/projets/${id}/organisation/activite`
         ).then(res => {
             commit("setOrganisationDetails", res.data)
         })
     },
 
+    async fetchOrganisationTransactionR({ commit },id) {
+        await axios.get(
+            `http://localhost:8000/api/projets/${id}/organisation/transactionr`
+        ).then(res => {
+            commit("setOrganisationTransactionR", res.data)
+        })
+    },
+
+    async fetchOrganisationTransactionE({ commit },id) {
+        await axios.get(
+            `http://localhost:8000/api/projets/${id}/organisation/transactione`
+        ).then(res => {
+            commit("setOrganisationTransactionE", res.data)
+        })
+    },
+    //End
+    //Region
+    async fetchRegion({ commit }) {
+        await axios.get(
+            `http://localhost:8000/api/projets/region`
+        ).then(res => {
+            commit("setRegionList", res.data)
+        })
+    },
+
+    async fetchRegionProject({ commit },region_id) {
+        await axios.get(
+            `http://localhost:8000/api/projets/${region_id}/region/activite`
+        ).then(res => {
+            commit("setRegionProject", res.data)
+        })
+    },
+
+    async fetchRegionTransaction({ commit },region_id) {
+        await axios.get(
+            `http://localhost:8000/api/projets/${region_id}/region/transaction`
+        ).then(res => {
+            commit("setRegionTransaction", res.data)
+        })
+    },
+
+    async fetchRegionDecaissement({ commit },region_id) {
+        await axios.get(
+            `http://localhost:8000/api/projets/${region_id}/region/decaissement`
+        ).then(res => {
+            commit("setRegionDecaissement", res.data)
+        })
+    },
+    //End
+
         // Organisme Stats
     async fetchOrganismePieStats({ commit }, {buyer_id, year }) {
         await axios.get(
-            `http://localhost:8000/api/projets/${buyer_id}/activite/by_status?year=${year}`
+            `http://localhost:8000/api/projets/${buyer_id}/organisation/by_status?year=${year}`
         ).then(res => {
             commit("setOrganismePieStats", {name: "pie", data : pieStatAdapter(res.data)})
         })
     },
     async fetchOrganismeBarOneStats({ commit }, { buyer_id, year }) {
         axios.get(
-            `http://localhost:8000/api/projets/${buyer_id}/activite/by_regiontransact?year=${year}`
+            `http://localhost:8000/api/projets/${buyer_id}/organisation/by_regiontransact?year=${year}`
         ).then(res => {
             commit("setOrganismeBarOneStats", {name: "barOne", data : barStatAdapter(res.data)})
         })
     },
     async fetchOrganismeBarTwoStats({ commit }, {buyer_id, year }) {
         axios.get(
-            `http://localhost:8000/api/projets/${buyer_id}/activite/by_region?year=${year}`
+            `http://localhost:8000/api/projets/${buyer_id}/organisation/by_region?year=${year}`
         ).then(res => {
             commit("setOrganismeBarTwoStats", {name: "barTwo", data : barStatAdapter(res.data)})
         })
     },
     async fetchOrganismeLineStats({ commit }, {buyer_id, start_year, end_year }) {
         await axios.get(
-            `http://localhost:8000/api/projets/${buyer_id}/activite/by_sector?start_year=${start_year}&end_year=${end_year}`
+            `http://localhost:8000/api/projets/${buyer_id}/organisation/by_sector?start_year=${start_year}&end_year=${end_year}`
         ).then(res => {
             commit("setOrganismeLineStats", {name: "line", data : lineStatAdapter(res.data, start_year, end_year)})
         })
     },
         // End Organisme Stats
     
-            // Organisme Stats
-    async fetchOrganismePieStats({ commit }, {buyer_id, year }) {
-        await axios.get(
-            `http://localhost:8000/api/projets/${buyer_id}/activite/by_status?year=${year}`
-        ).then(res => {
-            commit("setOrganismePieStats", {name: "pie", data : pieStatAdapter(res.data)})
-        })
-    },
-    async fetchOrganismeBarOneStats({ commit }, { buyer_id, year }) {
-        axios.get(
-            `http://localhost:8000/api/projets/${buyer_id}/activite/by_regiontransact?year=${year}`
-        ).then(res => {
-            commit("setOrganismeBarOneStats", {name: "barOne", data : barStatAdapter(res.data)})
-        })
-    },
-    async fetchOrganismeBarTwoStats({ commit }, {buyer_id, year }) {
-        axios.get(
-            `http://localhost:8000/api/projets/${buyer_id}/activite/by_region?year=${year}`
-        ).then(res => {
-            commit("setOrganismeBarTwoStats", {name: "barTwo", data : barStatAdapter(res.data)})
-        })
-    },
-    async fetchOrganismeLineStats({ commit }, {buyer_id, start_year, end_year }) {
-        await axios.get(
-            `http://localhost:8000/api/projets/${buyer_id}/activite/by_sector?start_year=${start_year}&end_year=${end_year}`
-        ).then(res => {
-            commit("setOrganismeLineStats", {name: "line", data : lineStatAdapter(res.data, start_year, end_year)})
-        })
-    },
-        // End Organisme Stats
         // Home Stats
         async fetchHomePieStats({ commit }, {year }) {
             await axios.get(
@@ -326,6 +389,37 @@ export const actions = {
             })
         },
         // End Home Stats
+
+        // Region Stats
+        async fetchRegionPieStats({ commit }, {region_id,year }) {
+            await axios.get(
+                `http://localhost:8000/api/projets/${region_id}/region/by_status?year=${year}`
+            ).then(res => {
+                commit("setRegionPieStats", {name: "pie", data : pieStatAdapter(res.data)})
+            })
+        },
+        async fetchRegionBarOneStats({ commit }, {region_id,year }) {
+            axios.get(
+                `http://localhost:8000/api/projets/${region_id}/region/by_condition?year=${year}`
+            ).then(res => {
+                commit("setRegionBarOneStats", {name: "barOne", data : barStatAdapter(res.data)})
+            })
+        },
+        async fetchRegionBarTwoStats({ commit }, {region_id,year }) {
+            axios.get(
+                `http://localhost:8000/api/projets/${region_id}/region/by_sectortransact?year=${year}`
+            ).then(res => {
+                commit("setRegionBarTwoStats", {name: "barTwo", data : barStatAdapter(res.data)})
+            })
+        },
+        async fetchRegionLineStats({ commit }, {region_id,start_year, end_year }) {
+            await axios.get(
+                `http://localhost:8000/api/projets/${region_id}/region/by_sector?start_year=${start_year}&end_year=${end_year}`
+            ).then(res => {
+                commit("setRegionLineStats", {name: "line", data : lineStatAdapter(res.data, start_year, end_year)})
+            })
+        },
+        // End Region Stats
         
 }
 export const getters = {}

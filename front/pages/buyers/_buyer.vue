@@ -1,6 +1,8 @@
 <template>
   <Travaux 
   :done=done
+  :transactemise=transactionemise
+  :transactrecu=transactionrecu
   :pieStats=pieStats
   :barOneStats=barOneStats
   :barTwoStats=barTwoStats
@@ -23,6 +25,12 @@ export default {
     done(){
       return this.$store.state.organisationDetails
     },
+    transactionrecu(){
+      return this.$store.state.organisationTransactionR
+    },
+    transactionemise(){
+      return this.$store.state.organisationTransactionE
+    },
     pieStats() {
       return this.$store.state.organismePieStats
     },
@@ -38,6 +46,8 @@ export default {
   },
   mounted(){
     this.$store.dispatch('fetchOrganisationDetails',this.id)
+    this.$store.dispatch('fetchOrganisationTransactionR',this.id)
+    this.$store.dispatch('fetchOrganisationTransactionE',this.id)
     this.fetchPieStats(new Date().getFullYear())
     this.fetchBarOneStats(new Date().getFullYear())
     this.fetchBarTwoStats(new Date().getFullYear())

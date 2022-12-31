@@ -1,6 +1,8 @@
 <template>
   <RegionHelper 
   :done=done 
+  :decaissement=decaissement
+  :transaction=transaction
   :pieStats= pieStats
   :barOneStats= barOneStats
   :barTwoStats= barTwoStats
@@ -21,13 +23,18 @@ export default {
     },
   data(){
     return {
-        country: this.$route.params.country,
-        region: this.$route.params.region
+        id: this.$route.params.region
     }
   },
   computed:{
     done(){
-      return this.$store.state.listRegions
+      return this.$store.state.regionProject
+    },
+    decaissement(){
+      return this.$store.state.regionDecaissement
+    },
+    transaction(){
+      return this.$store.state.regionTransaction
     },
     pieStats() {
       return this.$store.state.regionPieStats
@@ -47,20 +54,22 @@ export default {
     this.fetchBarOneStats(new Date().getFullYear())
     this.fetchBarTwoStats(new Date().getFullYear())
     this.fetchLineStats([new Date().getFullYear(), new Date().getFullYear()])
-    this.$store.dispatch('oneRegion',{country: this.country,region: this.region})
+    this.$store.dispatch('fetchRegionProject',this.id)
+    this.$store.dispatch('fetchRegionTransaction',this.id)
+    this.$store.dispatch('fetchRegionDecaissement', this.id)
   },
   methods: {
     fetchPieStats(year) {
-      this.$store.dispatch('fetchRegionPieStats', { country: this.country,region: this.region, year })
+      this.$store.dispatch('fetchRegionPieStats', { region_id: this.id, year })
     },
     fetchBarOneStats(year) {
-      this.$store.dispatch('fetchRegionBarOneStats', { country: this.country,region: this.region, year })
+      this.$store.dispatch('fetchRegionBarOneStats', { region_id: this.id, year })
     },
     fetchBarTwoStats(year) {
-      this.$store.dispatch('fetchRegionBarTwoStats', { country: this.country,region: this.region, year })
+      this.$store.dispatch('fetchRegionBarTwoStats', { region_id: this.id, year })
     },
     fetchLineStats([startYear, endYear]) {
-      this.$store.dispatch('fetchRegionLineStats', { country: this.country,region: this.region, start_year: startYear, end_year: endYear })
+      this.$store.dispatch('fetchRegionLineStats', { region_id: this.id, start_year: startYear, end_year: endYear })
     },
   },
 }

@@ -1,9 +1,11 @@
 from iati_activities.models import Activity,ActivityCollaborationType,ConditionActivity,ActivityOrganization,\
     ActivitySector,ContactInfo,ActivityParticipatingOrg, Transaction, ActivityCollaborationType, Indicator, Results, Budget,\
-        PlannedDisbursement
+        PlannedDisbursement,ActivityLocation
 
 from iati_referentiel.serializers import CountrySerializer,RegionSerializer,SectorSerializer,\
     OrganizationSerializer,ConditionSerializer,CollaborationTypeSerializer
+
+from iati_referentiel.models import Location
 
 
 from rest_framework import serializers
@@ -15,6 +17,18 @@ class ActivitySerializer(serializers.ModelSerializer):
     countryid3 = CountrySerializer()
     class Meta:
         model = Activity
+        fields = '__all__'
+
+class RegActivitySerializer(serializers.ModelSerializer):
+    activityid = ActivitySerializer()
+    class Meta:
+        model = ActivityLocation
+        fields = '__all__'
+
+class LocationSerializer(serializers.ModelSerializer):
+    countryid3 = CountrySerializer()
+    class Meta:
+        model = Location
         fields = '__all__'
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -134,6 +148,15 @@ class TransactionEcartSerializer(serializers.Serializer):
     difference = serializers.FloatField()
 
 class HomeActivityByStatusSerializer(serializers.Serializer):
+    Identification = serializers.IntegerField()
+    Implementation = serializers.IntegerField()
+    Finalisation = serializers.IntegerField()
+    Closed = serializers.IntegerField()
+    Cancelled = serializers.IntegerField()
+    Suspended = serializers.IntegerField()
+    total = serializers.IntegerField()
+
+class RegionActivityByStatusSerializer(serializers.Serializer):
     Identification = serializers.IntegerField()
     Implementation = serializers.IntegerField()
     Finalisation = serializers.IntegerField()

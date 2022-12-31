@@ -1,17 +1,31 @@
 <template>
   <div>
      <v-tabs v-model="tab" centered slider-size="1" hide-slider class="mb-5 mt-16" active-class="active">
-        <v-tab
-        >
+        <v-tab>
           <v-btn outlined rounded
-          color="success"
-          >
+          color="success">
             <v-icon left>
               mdi-clipboard-list-outline
             </v-icon>
             Listes
           </v-btn>
          </v-tab>
+         <v-tab>
+          <v-btn outlined rounded color="success"> 
+            <v-icon left>
+              mdi-chart-bar
+            </v-icon>
+            Transaction
+          </v-btn>
+        </v-tab>
+        <v-tab>
+          <v-btn outlined rounded color="success"> 
+            <v-icon left>
+              mdi-chart-bar
+            </v-icon>
+            Décaissement
+          </v-btn>
+        </v-tab>
         <v-tab>
           <v-btn outlined rounded color="success"> 
             <v-icon left>
@@ -24,6 +38,12 @@
      <v-tabs-items v-model="tab">
       <v-tab-item class="mx-5 mt-16 mb-16 elevation-4">
         <SingleRegion :title=this.$store.state.regionName :done=done />
+      </v-tab-item>
+      <v-tab-item class="mx-5 mt-16 mb-16 elevation-4">
+        <SingleTransaction :title=this.$store.state.regionName :done=transaction />
+      </v-tab-item>
+      <v-tab-item class="mx-5 mt-16 mb-16 elevation-4">
+        <SingleDecaissement :title=this.$store.state.regionName :done=decaissement />
       </v-tab-item>
       <v-tab-item class="mx-5">
         <ChartList 
@@ -44,6 +64,12 @@ export default {
     done: {
         type: []
     },
+    transaction: {
+        type: []
+    },
+    decaissement: {
+        type: []
+    },
     inprogress: {
         type: []
     },
@@ -57,7 +83,7 @@ export default {
         tab: null,
         pieTitle: "Statut annuel des travaux",
         lineTitle: "Evolution des montants par secteur",
-        barOneTitle: "Montant annuel des travaux par bailleur",
+        barOneTitle: "Montant annuel des travaux par Condition",
         barTwoTitle: "Montant annuel des travaux par secteur",
       }
     },

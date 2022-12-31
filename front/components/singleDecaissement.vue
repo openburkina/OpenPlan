@@ -21,9 +21,8 @@
       :items-per-page=5
       :options=
       "{sortBy: []}"
-      @click:row="createEditLink"
       :footer-props="{
-        'items-per-page-text':'Activité'
+        'items-per-page-text':'Decaissement'
       }">
    
     </v-data-table>
@@ -51,14 +50,10 @@ export default {
             sortable: false,
             value: 'name',
           },
-          { text: 'ID', value: 'activityid.id' },
-          { text: 'Codage IATI', value: 'activityid.iati_identifier' },
-          { text: 'Pays', value: 'activityid.countryid3.name' },
-          { text: 'Region', value: 'activityid.regionid3.name' },
-          { text: 'Titre', value: 'activityid.title' },
-          { text: 'Dévise', value: 'activityid.default_currency' },
-          { text: 'Etape', value: 'activityid.activity_status' },
-          { text: 'Dernière mise à jour', value: 'activityid.last_updated_datetime' },
+         
+          { text: 'Organisme', value: 'name' },
+          { text: 'Montant', value: 'value' },
+          { text: 'Dévise', value: 'currency' },
         ],
     }
   },
@@ -74,10 +69,7 @@ export default {
        console.log(this.$store.state.idRegion)
       //  this.$store.dispatch('',this.$store.state.idRegion)
      }
-    },
-    createEditLink(project) {
-      return this.$router.push({ path: '/projects/' + project.activityid.id})
-    },
+    }
   }
 }
 </script>

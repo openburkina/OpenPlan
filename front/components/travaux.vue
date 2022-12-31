@@ -12,6 +12,28 @@
             Listes
           </v-btn>
          </v-tab>
+         <v-tab
+        >
+          <v-btn outlined rounded
+          color="success"
+          >
+            <v-icon left>
+              mdi-clipboard-list-outline
+            </v-icon>
+            Transaction Reçu
+          </v-btn>
+         </v-tab>
+         <v-tab
+        >
+          <v-btn outlined rounded
+          color="success"
+          >
+            <v-icon left>
+              mdi-clipboard-list-outline
+            </v-icon>
+            Transaction Emise
+          </v-btn>
+         </v-tab>
         <v-tab>
           <v-btn outlined rounded color="success"> 
             <v-icon left>
@@ -24,6 +46,12 @@
      <v-tabs-items v-model="tab">
       <v-tab-item class="mx-5 mt-16 mb-16 elevation-4">
         <TravauxContentDone :title=this.$store.state.particularName :done=done />
+      </v-tab-item>
+      <v-tab-item class="mx-5 mt-16 mb-16 elevation-4">
+        <BuyerTransactionR :title=this.$store.state.particularName :transactionrecu=transactrecu />
+      </v-tab-item>
+      <v-tab-item class="mx-5 mt-16 mb-16 elevation-4">
+        <BuyerTransactionE :title=this.$store.state.particularName :transactionemise=transactemise />
       </v-tab-item>
       <v-tab-item class="mx-5">
         <ChartList 
@@ -41,6 +69,12 @@
 export default {
   props: {
     done: {
+      type: []
+    },
+    transactemise: {
+      type: []
+    },
+    transactrecu: {
       type: []
     },
 

@@ -85,7 +85,7 @@ export default {
     },
     createEditLink(project) {
       return this.$router.push({ path: '/projects/' + project.id})
-    },
+    }
   },
 }
 </script>

@@ -48,21 +48,22 @@ export default {
             sortable: false,
          
           },
-        { text: 'Pays', value: 'country' },
-        { text: 'Région', value: 'region' },
+        { text: 'ID', value: 'id' },
+        { text: 'Pays', value: 'countryid3.name' },
+        { text: 'Région', value: 'name' },
+        { text: 'Code Administratif', value: 'administrative_code' },
         
       ],
     }
   },
 
   mounted(){
-     this.$store.dispatch('region')
+     this.$store.dispatch('fetchRegion')
   },
  
   computed:{
     regions(){
-      console.log(this.$store.state.listOfRegion)
-      return this.$store.state.listOfRegion
+      return this.$store.state.regionList
     },
    
   },
@@ -75,9 +76,10 @@ export default {
       if (statut < 1) return 'mdi-close'
       else return 'mdi-check'
     },
-    createEditLink(regions) {
-      this.$store.state.regionName = `Region de : ${regions.region}`
-      return this.$router.push({ path: '/regions/' + regions.country + '/' + regions.region})
+    createEditLink(region) {
+      this.$store.state.regionName = `Region de : ${region.name}`
+      return this.$router.push({path: '/regions/' +region.id})
+
     }
   }
 }

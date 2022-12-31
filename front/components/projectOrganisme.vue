@@ -7,6 +7,7 @@
         :items="items"
         :search="search"
         class="elevation-0"
+        @click:row="createEditLink"
       >
       </v-data-table>
     </v-card>
@@ -19,6 +20,7 @@ export default {
     return {
       
       headersOrgnanisme: [
+        { text: 'id', value: 'organizationid.id' },
         { text: 'ref', value: 'organizationid.ref' },
         { text: 'type', value: 'organizationid.type' },
         { text: 'narrative', value: 'organizationid.narrative' },
@@ -26,6 +28,13 @@ export default {
         { text: 'role', value: 'role' },
       ],
     }
+  },
+  methods: {
+    createEditLink(buyer) {
+      console.log(buyer)
+      this.$store.state.particularName = `Projet de : ${buyer.organizationid.narrative }`
+      return this.$router.push({ path: '/buyers/' + buyer.organizationid.id})
+    },
   },
 }
 </script>

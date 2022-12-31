@@ -5,18 +5,18 @@ from django.db.models.aggregates import Sum,Count
 from django.db.models.expressions import F, Value
 
 from iati_activities.models import Activity,ActivitySector,ActivityOrganization,ActivityParticipatingOrg, \
-    Transaction,ConditionActivity,ActivityCollaborationType, Indicator, Budget, Results, PlannedDisbursement,TransactionSector
+    Transaction,ConditionActivity,ActivityCollaborationType, Indicator, Budget, Results, PlannedDisbursement,TransactionSector,ActivityLocation
 
 from iati_activities.serializers import ActivitySerializer, ActivityDetailsSerializer,ActivitySectorSerializer,ActivityOrganizationSerializer,\
     ActivityParticipatingOrgSerializer,TransactionSerializer,ConditionActivitySerializer,ActivityCollaborationTypeSerializer, IndicatorSerializer, BudgetSerializer, \
         ResultsSerializer, PlannedDisbursementSerializer,TransactionActivitySerializer, OrganisationActivityByStatusSerializer,\
             OrganisationActivityByRegionSerializer, OrganisationActivityBySectorSerializer, OrganisationActivityByRegionTransactionSerializer, TransactionEcartSerializer, \
-                HomeActivityByStatusSerializer
+                HomeActivityByStatusSerializer, LocationSerializer, RegActivitySerializer, RegionActivityByStatusSerializer
 
 from iati_referentiel.serializers import OrganizationSerializer
 
 from iati_referentiel.models import Organization,\
-        ResultsSerializer, PlannedDisbursementSerializer
+        Location
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -31,6 +31,10 @@ class ActivityViews(viewsets.ReadOnlyModelViewSet):
 class OrganisationViews(viewsets.ReadOnlyModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
+
+class RegionViews(viewsets.ReadOnlyModelViewSet):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
 
 class ActivityDetailsViews(viewsets.ReadOnlyModelViewSet):
     queryset = Activity.objects.all()
@@ -77,20 +81,28 @@ class BudgetViews(APIView):
         queryset = Budget.objects.filter(resultsid__activityid=activity_id)
         data = BudgetSerializer(queryset, many=True, context={'request': request}).data
 
-class ActivityRegionViews(APIView):
+class RegionActivityViews(APIView):
     def get(self, request, region_id):
-        queryset = Activity.objects.filter(regionid3=region_id)
-        data = ActivitySerializer(queryset, many=True, context={'request': request}).data
+        queryset = ActivityLocation.objects.filter(locationid=region_id)
+        data = RegActivitySerializer(queryset, many=True, context={'request': request}).data
         return Response(data)
 
 class TransactionRegionViews(APIView):
     def get(self, request, region_id):
-        queryset = Transaction.objects.filter(regionid3=region_id)
-        queryset = queryset.annotate(name=F('organisationid2__narative').value('name'))
-        queryset =  queryset.annotate(value=sum('value'), currency=F('currency'))                
-        data = TransactionSerializer(queryset, many=True, context={'request': request}).data
+        queryset = Transaction.objects.filter(activityid__activitylocation__locationid=region_id)
+        queryset = queryset.annotate(name=F('organizationid2__narrative')).values('name')
+        queryset =  queryset.annotate(value=Sum('value'), currency=F('currency'))                
+        data = TransactionActivitySerializer(queryset, many=True, context={'request': request}).data
         return Response(data)
 
+class DecaissementRegionViews(APIView):
+    def get(self, request, region_id):
+        queryset = Transaction.objects.filter(activityid__activitylocation__locationid=region_id, transaction_type='Disbursment')
+        queryset = queryset.annotate(name=F('organizationid2__narrative')).values('name')
+        queryset =  queryset.annotate(value=Sum('value'), currency=F('currency'))                
+        data = TransactionActivitySerializer(queryset, many=True, context={'request': request}).data
+        return Response(data)
+        
 class ActivityResultatViews(APIView):
     def get(self, request, activity_id):
         queryset = Results.objects.filter(activityid=activity_id)
@@ -113,14 +125,28 @@ class ActivityOrganisationTransactionViews(APIView):
                                    )
         data = TransactionActivitySerializer(queryset, many=True).data
         return Response(data)
+#Activite Transaction Emise
+class TransactionEmiseOrganisationViews(APIView):
+    def get(self, request, organisation_id):
+        queryset = Transaction.objects.filter(organizationid2=organisation_id)
+        data = TransactionSerializer(queryset, many=True, context={'request': request}).data
+        return Response(data)
 
+#Activite Transaction Recu
+class TransactionRecuOrganisationViews(APIView):
+    def get(self, request, organisation_id):
+        queryset = Transaction.objects.filter(organizationid=organisation_id)
+        data = TransactionSerializer(queryset, many=True, context={'request': request}).data
+        return Response(data)
+
+#Activite d'une organisation
 class OrganisationActivityViews(APIView):
     def get(self, request, organisation_id):
         queryset = ActivityOrganization.objects.filter(organizationid=organisation_id)
         data = ActivityOrganizationSerializer(queryset, many=True, context={'request': request}).data
         return Response(data)
 
-
+#Decaissement Activité
 class ActivityDecaissementEcartViews(APIView):
     def get(self, request, activity_id):
         queryset = Transaction.objects.filter(activityid=activity_id, transaction_type='Disbursement')
@@ -135,11 +161,7 @@ class OrganisationActivityStatusViews(APIView):
         year = self.request.query_params.get('year')
         if year is None:
             return Response('Year not specified', status=500)
-        sting_date_deb = year+'-01-01'
-        string_date_fin = year+'-12-31'
-        debut = datetime.strptime(sting_date_deb,'%Y-%m-%d').date()
-        fin = datetime.strptime(string_date_fin,'%Y-%m-%d').date()
-        queryset = ActivityOrganization.objects.filter(organizationid=organisation_id, activityid__activitydate__planned_start__range=(debut,fin))
+        queryset = ActivityOrganization.objects.filter(organizationid=organisation_id, activityid__activitydate__planned_start__year=year)
         output = {
             'Identification': 0,
             'Implementation': 0,
@@ -160,11 +182,7 @@ class OrganisationActivityRegionViews(APIView):
         year = self.request.query_params.get('year')
         if year is None:
             return Response('Year not specified', status=500)
-        sting_date_deb = year+'-01-01'
-        string_date_fin = year+'-12-31'
-        debut = datetime.strptime(sting_date_deb,'%Y-%m-%d').date()
-        fin = datetime.strptime(string_date_fin,'%Y-%m-%d').date()
-        queryset = ActivityOrganization.objects.filter(organizationid=organisation_id, activityid__activitydate__planned_start__range=(debut,fin))
+        queryset = ActivityOrganization.objects.filter(organizationid=organisation_id, activityid__activitydate__planned_start__year=year)
         queryset = queryset.annotate(name=F('activityid__regionid3__name')).values('name')
         queryset = queryset.annotate(value=Count('activityid__regionid3__name'))
         data = OrganisationActivityByRegionSerializer(queryset, many=True).data
@@ -189,8 +207,8 @@ class OrganisationActivitySectorViews(APIView):
         end_year = self.request.query_params.get('end_year')
         queryset = ActivityOrganization.objects.filter(
             organizationid=organisation_id, 
-            activityid__activitydate__planned_start__gte=start_year, 
-            activityid__activitydate__planned_start__lte=start_year
+            activityid__activitydate__planned_start__year__gte=start_year, 
+            activityid__activitydate__planned_start__year__lte=end_year
             ).values('activityid__activitydate__planned_start__year' , name=F('activityid__activitysector__sectorid__narrative')).\
             annotate(value=Count('activityid__activitysector__sectorid__narrative'))
         data = OrganisationActivityBySectorSerializer(queryset, many=True).data
@@ -202,11 +220,7 @@ class OrganisationActivityRegionTransactionViews(APIView):
         year = self.request.query_params.get('year')
         if year is None:
             return Response('Year not specified', status=500)
-        sting_date_deb = year+'-01-01'
-        string_date_fin = year+'-12-31'
-        debut = datetime.strptime(sting_date_deb,'%Y-%m-%d').date()
-        fin = datetime.strptime(string_date_fin,'%Y-%m-%d').date()
-        queryset = ActivityOrganization.objects.filter(organizationid=organisation_id, activityid__activitydate__planned_start__range=(debut,fin))
+        queryset = ActivityOrganization.objects.filter(organizationid=organisation_id, activityid__activitydate__planned_start__year=year)
         queryset = queryset.annotate(name=F('activityid__transaction__regionid3__name')).values('name')
         queryset = queryset.annotate(value=Sum('activityid__transaction__value'))
         data = OrganisationActivityByRegionTransactionSerializer(queryset, many=True).data
@@ -255,7 +269,7 @@ class HomeTransactionRegionTransactionViews(APIView):
         if year is None:
             return Response('Year not specified', status=500)
         queryset = Activity.objects.filter(activityid__activitydate__planned_start__year=year)
-        queryset = queryset.annotate(name=F('activityid__transaction__countryid3__name')).values('name')
+        queryset = queryset.annotate(name=F('activityid__activitylocation__locationid__name')).values('name')
         queryset = queryset.annotate(value=Sum('activityid__transaction__value'))
         data = OrganisationActivityByRegionTransactionSerializer(queryset, many=True).data
         return Response(data)
@@ -271,4 +285,64 @@ class HomeTransactionSectorTransactionViews(APIView):
         queryset = queryset.annotate(value=Sum('transactionid__value'))
         data = OrganisationActivityByRegionTransactionSerializer(queryset, many=True).data
         return Response(data)
+
+#By Region And Status
+class RegionActivityStatusViews(APIView):
+    def get(self, request, region_id):
+        year = self.request.query_params.get('year')
+        if year is None:
+            return Response('Year not specified', status=500)
+        queryset = ActivityLocation.objects.filter(locationid=region_id, activityid__activitydate__planned_start__year=year)
+        output = {
+            'Identification': 0,
+            'Implementation': 0,
+            'Finalisation': 0,
+            'Closed': 0,
+            'Cancelled': 0,
+            'Suspended': 0,
+            'total': queryset.count(),
+        }
+        for query in queryset:
+            output[query.activityid.activity_status] += 1
+        data = RegionActivityByStatusSerializer(output).data
+        return Response(data)
+
+#By Region And Sector
+class RegionActivitySectorViews(APIView):
+    def get(self, request, region_id):
+        start_year = self.request.query_params.get('start_year')
+        end_year = self.request.query_params.get('end_year')
+        queryset = ActivityLocation.objects.filter(
+            locationid=region_id, 
+            activityid__activitydate__planned_start__year__gte=start_year, 
+            activityid__activitydate__planned_start__year__lte=end_year
+            ).values('activityid__activitydate__planned_start__year' , name=F('activityid__activitysector__sectorid__narrative')).\
+            annotate(value=Count('activityid__activitysector__sectorid__narrative'))
+        data = OrganisationActivityBySectorSerializer(queryset, many=True).data
+        return Response(data)
+
+#By Region AND Transaction
+class RegionActivityConditionTransactionViews(APIView):
+    def get(self, request, region_id):
+        year = self.request.query_params.get('year')
+        if year is None:
+            return Response('Year not specified', status=500)
+        queryset = ActivityLocation.objects.filter(locationid=region_id, activityid__activitydate__planned_start__year=year)
+        queryset = queryset.annotate(name=F('activityid__conditionactivity__conditionid__condition')).values('name')
+        queryset = queryset.annotate(value=Sum('activityid__transaction__value'))
+        data = OrganisationActivityByRegionTransactionSerializer(queryset, many=True).data
+        return Response(data)
+
+#By Home And Sector AND Transaction
+class RegionTransactionSectorTransactionViews(APIView):
+    def get(self, request,region_id):
+        year = self.request.query_params.get('year')
+        if year is None:
+            return Response('Year not specified', status=500)
+        queryset = TransactionSector.objects.filter(sectorid__activitysector__activityid__activitydate__planned_start__year=year, sectorid__activitysector__activityid__activitylocation__locationid=region_id)
+        queryset = queryset.annotate(name=F('sectorid__narrative')).values('name')
+        queryset = queryset.annotate(value=Sum('transactionid__value'))
+        data = OrganisationActivityByRegionTransactionSerializer(queryset, many=True).data
+        return Response(data)
+
 

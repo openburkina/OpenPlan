@@ -28,7 +28,7 @@
         </v-tab>
 
         <v-tab href="#tab-5">
-          Organismes
+          Organismes Participants
           <v-icon>mdi-chart-timeline</v-icon>
         </v-tab>
 

@@ -22,20 +22,12 @@
       <v-list-item-subtitle>{{ info.description }}</v-list-item-subtitle>
     </v-list-item>
     <v-divider></v-divider>
-    <v-list-item>
-      <v-list-item-title>Budget</v-list-item-title>
-      <v-list-item-subtitle>{{ info.budget_not_provided }} {{ info.default_currency }}</v-list-item-subtitle>
-    </v-list-item>
     <v-divider></v-divider>
     <v-list-item>
       <v-list-item-title>Statut</v-list-item-title>
       <v-list-item-subtitle>{{ info.activity_status }}</v-list-item-subtitle>
     </v-list-item>
     <v-divider></v-divider>
-    <v-list-item>
-      <v-list-item-title>Localisation</v-list-item-title>
-      <v-list-item-subtitle>{{ info.regionid3.name }} // {{ info.countryid3.name }} </v-list-item-subtitle>
-    </v-list-item>
   </v-card>
 </div>
 
