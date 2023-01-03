@@ -2,7 +2,7 @@ from django.db import models
 from iati_referentiel.models import CollaborationType, Country , DefaultAidType, \
     DefaultFinanceType, HumanitarianScope, Location, Organization, Region, Sector, Tag, Condition
 
-from .constants import STATUS,ROLE,TYPE,TRANSACTION
+from .constants import STATUS,ROLE,TYPE,TRANSACTION,MEASURE,DATETYPE,BUDGESTATUT,BUDGETYPE,BUDGETNOTAPPRO
 
 class ActivityParticipatingOrg(models.Model):
     role = models.CharField(max_length=255, blank=True, null=True,choices=ROLE,verbose_name ='Rôle')
@@ -19,7 +19,7 @@ class ActivityParticipatingOrg(models.Model):
 
 class ActivityDate(models.Model):
     activityid = models.ForeignKey('Activity', models.DO_NOTHING, db_column='activityid',verbose_name ='Projet')
-    type = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=255, blank=True, null=True,choices=DATETYPE)
     planned_start = models.DateField(db_column='Planned-start', blank=True, null=True,verbose_name ='Début Planifié')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     planned_end = models.DateField(db_column='Planned-end', blank=True, null=True, verbose_name ='Fin Planifiée')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     actual_start = models.DateField(db_column='Actual-start', blank=True, null=True,verbose_name ='Début Réel')  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -174,7 +174,7 @@ class Activity(models.Model):
     default_currency = models.CharField(db_column='Default-currency', max_length=255, blank=True, null=True,verbose_name ='Dévise')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     humanitarian = models.BooleanField(verbose_name ='Humanitaire')
     hierarchy = models.IntegerField(verbose_name ='Hiérachie')
-    budget_not_provided = models.CharField(db_column='Budget-not-provided', max_length=255, blank=True, null=True,verbose_name ='Budget non approvisé')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    budget_not_provided = models.CharField(db_column='Budget-not-provided', max_length=255, blank=True, null=True,choices=BUDGETNOTAPPRO, verbose_name ='Budget non approvisé')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     iati_identifier = models.BigIntegerField(db_column='Iati-identifier')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     title = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Intitulé')
     description = models.CharField(max_length=255, blank=True, null=True)
@@ -264,8 +264,8 @@ class Baseline(models.Model):
 
 class Budget(models.Model):
     activityid = models.ForeignKey(Activity, models.DO_NOTHING, db_column='activityid')
-    type = models.CharField(max_length=255, blank=True, null=True,verbose_name='Type')
-    statusst = models.CharField(max_length=255, blank=True, null=True,verbose_name='Statut')
+    type = models.CharField(max_length=255,blank=True, null=True,choices=BUDGETYPE, verbose_name='Type Budget')
+    statut = models.CharField(max_length=255,blank=True, null=True,choices=BUDGESTATUT, verbose_name='Statut Budget')
     period_start = models.DateField(db_column='Period-start', max_length=255, blank=True, null=True,verbose_name='Période Début')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     period_end = models.DateField(db_column='Period-end', max_length=255, blank=True, null=True,verbose_name='Période Fin')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     value = models.FloatField(verbose_name='Montant')
@@ -318,7 +318,7 @@ class Dimension(models.Model):
 
 class Indicator(models.Model):
     resultsid = models.ForeignKey('Results', models.DO_NOTHING, db_column='resultsid',verbose_name ='Resultat')
-    measure = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Mesure')
+    measure = models.CharField(max_length=255, blank=True, null=True,choices=MEASURE, verbose_name ='Mesure')
     ascending = models.BooleanField(verbose_name ='Ascendant')
     aggregation_status = models.BooleanField(db_column='Aggregation-status',verbose_name ='Statut Agrégation')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     title = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Titre')

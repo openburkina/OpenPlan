@@ -25,6 +25,7 @@ export const state = () => ({
     regionProject : [],
     regionTransaction : [],
     regionDecaissement : [],
+    homeRegionValues: [],
 //END
 //STATISTIQUE GRAPHIQUE
     organismePieStats: {'labels': [], 'data': []},
@@ -110,6 +111,9 @@ export const mutations = {
     },
     setRegionDecaissement(state, payload) {
         state.regionDecaissement = payload
+    },
+    setHomeRegionValues(state, payload) {
+        state.homeRegionValues = payload.data
     },
 //End Stats Tableau
 

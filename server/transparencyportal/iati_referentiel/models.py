@@ -26,14 +26,16 @@ class Organization(models.Model):
 
 class Location(models.Model):
     countryid3 = models.ForeignKey('Country', models.DO_NOTHING, db_column='countryid3',verbose_name ='Pays')
-    ref = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Réference')
+    locationid = models.ForeignKey('self', models.DO_NOTHING, db_column='locationid', blank=True, null=True,verbose_name ='Localite Parente')
+    ref = models.CharField(max_length=255, blank=True, null=True,verbose_name ='Réference')    
     location_reach = models.CharField(db_column='Location-reach', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     code = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True, verbose_name ='Nom')
     description = models.CharField(max_length=255, blank=True, null=True)
+    hierarchy = models.IntegerField(verbose_name ='Hiérachie')
     activity_location = models.CharField(db_column='Activity-location', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    administrative_code = models.IntegerField(db_column='Administrative-code', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    administrative_level = models.CharField(db_column='Administrative-level', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    administrative_code = models.IntegerField(db_column='Administrative-code', blank=True, null=True,verbose_name ='Code Administratif')  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    administrative_level = models.CharField(db_column='Administrative-level', max_length=255, blank=True, null=True,verbose_name ='Niveau Administratif')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     pos = models.CharField(max_length=255, blank=True, null=True)
     location_class = models.CharField(db_column='Location-class', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
 

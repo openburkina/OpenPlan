@@ -58,3 +58,35 @@ CONDITION = [
     ('Performance', 'Performance'),
     ('Fiduciary', 'Fiduciary'),
 ]
+
+MEASURE = [
+    ('Unit', 'Unit'),
+    ('Percentage', 'Percentage'),
+    ('Nominal', 'Nominal'),
+    ('Ordinal', 'Ordinal'),
+    ('Qualitative', 'Qualitative'),
+]
+
+DATETYPE = [
+    ('Planned start', 'Planned start'),
+    ('Actual start', 'Actual start'),
+    ('Planned End', 'Planned End'),
+    ('Actual end', 'Actual end'),
+]
+
+BUDGETYPE = [
+    ('Original', 'Original'),
+    ('Revised', 'Revised')
+]
+
+BUDGESTATUT = [
+    ('Indicative', 'Indicative'),
+    ('Committed', 'Committed')
+]
+
+BUDGETNOTAPPRO = [
+    ('Commercial Restrictions', 'Commercial Restrictions'),
+    ('Legal Restrictions', 'Legal Restrictions'),
+    ('Rapid Onset Emergency', 'Rapid Onset Emergency')
+]
+

@@ -62,12 +62,12 @@
       fixed
       height="90"
       v-bind:elevation="scrollPosition>28?4:0"
-      color="indigo lighten-1"
+      color="blue lighten-0"
     >
         
         <a href="/">
         <img
-          :src="require('~/assets/img/logo.png')" height="60" width="50"
+          :src="require('~/assets/img/logo.jpg')" height="60" width="50"
         >
         </a>
   
@@ -109,7 +109,7 @@
         fixed
         bottom
         right
-        color="indigo lighten-1"
+        color="blue lighten-0"
         @click="toTop"
         elevation="10"
       >

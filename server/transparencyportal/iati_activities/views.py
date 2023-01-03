@@ -5,7 +5,7 @@ from django.db.models.aggregates import Sum,Count
 from django.db.models.expressions import F, Value
 
 from iati_activities.models import Activity,ActivitySector,ActivityOrganization,ActivityParticipatingOrg, \
-    Transaction,ConditionActivity,ActivityCollaborationType, Indicator, Budget, Results, PlannedDisbursement,TransactionSector,ActivityLocation
+    Transaction,ConditionActivity,ActivityCollaborationType, Indicator, Budget, Results, PlannedDisbursement,TransactionSector,ActivityLocation,ActivityDate
 
 from iati_activities.serializers import ActivitySerializer, ActivityDetailsSerializer,ActivitySectorSerializer,ActivityOrganizationSerializer,\
     ActivityParticipatingOrgSerializer,TransactionSerializer,ConditionActivitySerializer,ActivityCollaborationTypeSerializer, IndicatorSerializer, BudgetSerializer, \
@@ -233,7 +233,7 @@ class HomeActivityStatusViews(APIView):
         year = self.request.query_params.get('year')
         if year is None:
             return Response('Year not specified', status=500)
-        queryset = Activity.objects.filter(activityid__activitydate__planned_start__year=year)
+        queryset = ActivityDate.objects.filter(planned_start__year=year)
         output = {
             'Identification': 0,
             'Implementation': 0,
@@ -244,7 +244,7 @@ class HomeActivityStatusViews(APIView):
             'total': queryset.count(),
         }
         for query in queryset:
-            output[query.activity_status] += 1
+            output[query.activityid.activity_status] += 1
         data = HomeActivityByStatusSerializer(output).data
         return Response(data)
 

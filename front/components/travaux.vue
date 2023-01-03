@@ -23,8 +23,7 @@
             Transaction Reçu
           </v-btn>
          </v-tab>
-         <v-tab
-        >
+         <v-tab>
           <v-btn outlined rounded
           color="success"
           >

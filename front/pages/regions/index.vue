@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Titre title="Régions" />
+    <Titre title="Localités" />
     <v-card color="indigo lighten-5 elevation-4 mx-4 mt-4 mb-16">
       <v-card-title>
-        Liste des régions
+        Liste des localités
         
         <v-spacer></v-spacer>
         <v-text-field
@@ -50,7 +50,8 @@ export default {
           },
         { text: 'ID', value: 'id' },
         { text: 'Pays', value: 'countryid3.name' },
-        { text: 'Région', value: 'name' },
+        { text: 'Localité Parente', value: 'locationid.name' },
+        { text: 'Localité', value: 'name' },
         { text: 'Code Administratif', value: 'administrative_code' },
         
       ],
@@ -77,7 +78,7 @@ export default {
       else return 'mdi-check'
     },
     createEditLink(region) {
-      this.$store.state.regionName = `Region de : ${region.name}`
+      this.$store.state.regionName = `Localité de : ${region.name}`
       return this.$router.push({path: '/regions/' +region.id})
 
     }

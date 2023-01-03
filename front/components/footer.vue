@@ -1,10 +1,12 @@
 <template>
+  <div style="
+position: relative; bottom: 0; left: 0; right: 0">
     <v-card
       flat
       tile
       fixed
       bottom
-      class="indigo lighten-1 white--text text-center"
+      class="blue lighten-0 white--text text-center"
     >
       <v-card-text>
         <v-btn
@@ -67,7 +69,9 @@
         {{ new Date().getFullYear() }} — <strong>Cafdo</strong>
       </v-card-text>
     </v-card>
+  </div>
 </template>
+
 <script>
   export default {
     data: () => ({

@@ -18,25 +18,31 @@
         </v-col>
     </v-card-subtitle>
     <v-divider></v-divider>
-    <apexchart
+    <div v-if="pieChartData[0]==0 && pieChartData[1]==0 && pieChartData[2]==0 && pieChartData[3]==0 && pieChartData[4]==0 && pieChartData[5]==0">
+        <P style="height: 300px;text-align: center;color: crimson;">No Data Found</P>
+    </div>    
+    <div v-else>
+        <apexchart
         type="donut"
         :options="pieOptions"
         :series="pieChartData"
         :height="300"
         >   
-    </apexchart> 
+        </apexchart>
+    </div>
     </v-card>
 </template>
-
 <script>
 export default {
     props: [
         "title",
         "pieChartData",
-        "pieOptions"
+        "pieOptions",
+        "noDataPie"
     ],
     data() {
         return {
+            
             year : new Date().getFullYear(),
         }
           

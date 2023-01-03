@@ -29,13 +29,18 @@
         </v-row>
     </v-card-subtitle>
     <v-divider></v-divider>
+    <div v-if="lineSeries.length==0">
+        <P style="height: 300px;text-align: center;color: crimson;">No Data Found</P>
+    </div>
+    <div v-else>
         <apexchart
             type="line"
             :options="chartOptionsLine"
-            
             :series="lineSeries"
             :height="300">
         </apexchart>
+    </div>
+        
     </v-card>
 </template>
 

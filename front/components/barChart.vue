@@ -17,18 +17,23 @@
         </v-col>
     </v-card-subtitle>
     <v-divider></v-divider>
-    <apexchart
+    <div v-if="verif.length==0">
+        <P style="height: 300px;text-align: center;color: crimson;">No Data Found</P>
+    </div>
+    <div v-else>  
+    <apexchart 
         type="bar"
         :options="chartOptionsBar"
         :series="seriesBar"
         :height="300">
     </apexchart>
+    </div>
     </v-card>
 </template>
 
 <script>
 export default {
-    props: ["title", "chartOptionsBar","seriesBar"],
+    props: ["title", "chartOptionsBar","seriesBar","verif"],
     data() {
         return {
             year : new Date().getFullYear(),

@@ -19,6 +19,11 @@ class ActivitySerializer(serializers.ModelSerializer):
         model = Activity
         fields = '__all__'
 
+class LocatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = '__all__'
+
 class RegActivitySerializer(serializers.ModelSerializer):
     activityid = ActivitySerializer()
     class Meta:
@@ -26,6 +31,7 @@ class RegActivitySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class LocationSerializer(serializers.ModelSerializer):
+    locationid= LocatSerializer()
     countryid3 = CountrySerializer()
     class Meta:
         model = Location
