@@ -328,7 +328,7 @@ class RegionActivityConditionTransactionViews(APIView):
         if year is None:
             return Response('Year not specified', status=500)
         queryset = ActivityLocation.objects.filter(locationid=region_id, activityid__activitydate__planned_start__year=year)
-        queryset = queryset.annotate(name=F('activityid__conditionactivity__conditionid__condition')).values('name')
+        queryset = queryset.annotate(name=F('activityid__organizationid__Organization__narrative')).values('name')
         queryset = queryset.annotate(value=Sum('activityid__transaction__value'))
         data = OrganisationActivityByRegionTransactionSerializer(queryset, many=True).data
         return Response(data)
@@ -339,9 +339,9 @@ class RegionTransactionSectorTransactionViews(APIView):
         year = self.request.query_params.get('year')
         if year is None:
             return Response('Year not specified', status=500)
-        queryset = TransactionSector.objects.filter(sectorid__activitysector__activityid__activitydate__planned_start__year=year, sectorid__activitysector__activityid__activitylocation__locationid=region_id)
+        queryset = Budget.objects.filter(activityid__activitydate__planned_start__year=year, activityid__activitylocation__locationid=region_id)
         queryset = queryset.annotate(name=F('sectorid__narrative')).values('name')
-        queryset = queryset.annotate(value=Sum('transactionid__value'))
+        queryset = queryset.annotate(value=Sum('value'))
         data = OrganisationActivityByRegionTransactionSerializer(queryset, many=True).data
         return Response(data)
 
